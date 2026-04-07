@@ -2,7 +2,7 @@
 export function toParisDisplay(isoUtc: string): string {
   const date = new Date(isoUtc);
   return new Intl.DateTimeFormat("fr-FR", {
-    timeZone: "Europe/Paris",
+    timeZone: "UTC",
     dateStyle: "medium",
     timeStyle: "short"
   }).format(date);

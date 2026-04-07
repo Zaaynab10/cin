@@ -2,9 +2,5 @@
 import { AppointmentTypeSelector } from "../../features/appointment/components/appointment-type-selector";
 
 export default function AppointmentPage() {
-  return (
-    <main className="container-page">
-      <AppointmentTypeSelector />
-    </main>
-  );
+  return <AppointmentTypeSelector />;
 }

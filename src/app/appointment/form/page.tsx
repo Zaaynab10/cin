@@ -2,15 +2,12 @@
 import { AppointmentFormShell } from "../../../features/appointment/components/appointment-form-shell";
 
 type AppointmentFormPageProps = {
-  searchParams?: Record<string, string | string[] | undefined>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 };
 
-export default function AppointmentFormPage({ searchParams }: AppointmentFormPageProps) {
-  const type = typeof searchParams?.type === "string" ? searchParams.type : undefined;
+export default async function AppointmentFormPage({ searchParams }: AppointmentFormPageProps) {
+  const params = await searchParams;
+  const type = typeof params?.type === "string" ? params.type : undefined;
 
-  return (
-    <main className="container-page">
-      <AppointmentFormShell initialType={type} />
-    </main>
-  );
+  return <AppointmentFormShell initialType={type} />;
 }

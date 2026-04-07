@@ -2,13 +2,14 @@
 import { AppointmentDetails } from "../../../features/appointment/components/appointment-details";
 
 type RendezVousPageProps = {
-  params: { token: string };
+  params: Promise<{ token: string }>;
 };
 
-export default function RendezVousPage({ params }: RendezVousPageProps) {
+export default async function RendezVousPage({ params }: RendezVousPageProps) {
+  const { token } = await params;
   return (
     <main className="container-page">
-      <AppointmentDetails token={params.token} />
+      <AppointmentDetails token={token} />
     </main>
   );
 }

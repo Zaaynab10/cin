@@ -6,6 +6,10 @@ export async function fetchSlots(type: string, date: string) {
   return apiClient(`/appointments/slots?type=${encodeURIComponent(type)}&date=${encodeURIComponent(date)}`);
 }
 
+export async function fetchAvailableDays(type: string, year: number, month: number) {
+  return apiClient(`/appointments/available-days?type=${encodeURIComponent(type)}&year=${year}&month=${month}`);
+}
+
 export async function createAppointment(payload: AppointmentInput) {
   return apiClient("/appointments", { method: "POST", body: JSON.stringify(payload) });
 }

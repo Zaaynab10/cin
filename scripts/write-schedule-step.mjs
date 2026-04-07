@@ -1,21 +1,45 @@
+import { writeFileSync } from "fs";
+import { join, dirname } from "path";
+import { fileURLToPath } from "url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+const OUT = join(__dirname, "../src/features/appointment/components/schedule-step.tsx");
+
+const SRC = `\
 // Expected: Display available slots and let user pick a valid time slot.
 "use client";
 
-import { useEffect, useState } from "react";
-import { fetchSlots, fetchAvailableDays } from "../lib/appointment-api";
-import type { ScheduleData } from "../types/appointment.types";
+import { useState } from "react";
 
-// --- Slot types ---------------------------------------------------------------
+// --- Slot config by appointment type -----------------------------------------
 
-type BackendSlot = { id: string; startAt: string; endAt: string; available: boolean };
+const SLOTS_BY_TYPE: Record<string, { time: string; full: boolean }[]> = {
+  pickup: [
+    { time: "14h00", full: false },
+    { time: "15h00", full: false },
+    { time: "16h00", full: true  },
+  ],
+  new_request: [
+    { time: "9h00",  full: false },
+    { time: "10h00", full: true  },
+    { time: "11h00", full: false },
+  ],
+  renewal: [
+    { time: "9h00",  full: false },
+    { time: "10h00", full: true  },
+    { time: "11h00", full: false },
+  ],
+};
+
+const DEFAULT_SLOTS = SLOTS_BY_TYPE.new_request;
 
 // --- Calendar constants -------------------------------------------------------
 
 const CLOSED_DAYS = [0];
 
 const MONTH_NAMES_FR = [
-  "Janvier", "Février", "Mars", "Avril", "Mai", "Juin",
-  "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre",
+  "Janvier", "F\u00e9vrier", "Mars", "Avril", "Mai", "Juin",
+  "Juillet", "Ao\u00fbt", "Septembre", "Octobre", "Novembre", "D\u00e9cembre",
 ];
 const DAY_LABELS = ["L", "M", "M", "J", "V", "S", "D"];
 
@@ -32,16 +56,6 @@ function getDaysInMonth(year: number, month: number) {
 function getFirstDayOfMonth(year: number, month: number) {
   const day = new Date(year, month, 1).getDay();
   return (day + 6) % 7;
-}
-
-function formatSlotTime(iso: string): string {
-  return new Date(iso)
-    .toLocaleTimeString("fr-FR", { timeZone: "UTC", hour: "2-digit", minute: "2-digit", hour12: false })
-    .replace(":", "h");
-}
-
-function toDateStr(day: number, month: number, year: number): string {
-  return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
 // --- Icons --------------------------------------------------------------------
@@ -96,66 +110,19 @@ function IconInfo({ className }: SvgProps) {
 
 type ScheduleStepProps = {
   appointmentType?: string;
-  onNext: (data: ScheduleData) => void;
+  onNext: () => void;
   onPrevious: () => void;
 };
 
 export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleStepProps) {
-  const [viewYear,          setViewYear]          = useState(TODAY.getFullYear());
-  const [viewMonth,         setViewMonth]         = useState(TODAY.getMonth());
-  const [selectedDate,      setSelectedDate]      = useState<number | null>(null);
-  const [selectedSlot,      setSelectedSlot]      = useState<string | null>(null);
-  const [selectedSlotLabel, setSelectedSlotLabel] = useState<string | null>(null);
-  const [backendSlots,      setBackendSlots]      = useState<BackendSlot[]>([]);
-  const [slotsLoading,      setSlotsLoading]      = useState(false);
-  const [slotsError,        setSlotsError]        = useState<string | null>(null);
-  const [availableDays,     setAvailableDays]     = useState<Set<number>>(new Set());
-  const [daysLoading,       setDaysLoading]       = useState(false);
+  const [viewYear,     setViewYear]     = useState(TODAY.getFullYear());
+  const [viewMonth,    setViewMonth]    = useState(TODAY.getMonth());
+  const [selectedDate, setSelectedDate] = useState<number | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 
-  // Load available days whenever month/year/type changes
-  useEffect(() => {
-    if (!appointmentType) return;
-    let cancelled = false;
-    setDaysLoading(true);
-    setAvailableDays(new Set());
-    fetchAvailableDays(appointmentType, viewYear, viewMonth + 1) // month is 1-indexed for backend
-      .then((res) => {
-        if (!cancelled) {
-          const days = ((res as { days?: number[] }).days) ?? [];
-          setAvailableDays(new Set(days));
-        }
-      })
-      .catch(() => {
-        if (!cancelled) setAvailableDays(new Set());
-      })
-      .finally(() => {
-        if (!cancelled) setDaysLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, [appointmentType, viewYear, viewMonth]);
-
-  useEffect(() => {
-    if (!selectedDate || !appointmentType) {
-      setBackendSlots([]);
-      return;
-    }
-    let cancelled = false;
-    setSlotsLoading(true);
-    setSlotsError(null);
-    setSelectedSlot(null);
-    setSelectedSlotLabel(null);
-    fetchSlots(appointmentType, toDateStr(selectedDate, viewMonth, viewYear))
-      .then((res) => {
-        if (!cancelled) setBackendSlots(((res as { slots?: BackendSlot[] }).slots) ?? []);
-      })
-      .catch(() => {
-        if (!cancelled) setSlotsError("Impossible de charger les créneaux.");
-      })
-      .finally(() => {
-        if (!cancelled) setSlotsLoading(false);
-      });
-    return () => { cancelled = true; };
-  }, [selectedDate, viewMonth, viewYear, appointmentType]);
+  const slots = (appointmentType && SLOTS_BY_TYPE[appointmentType])
+    ? SLOTS_BY_TYPE[appointmentType]
+    : DEFAULT_SLOTS;
 
   const daysInMonth = getDaysInMonth(viewYear, viewMonth);
   const firstOffset = getFirstDayOfMonth(viewYear, viewMonth);
@@ -174,8 +141,6 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
     }
     setSelectedDate(null);
     setSelectedSlot(null);
-    setSelectedSlotLabel(null);
-    setBackendSlots([]);
   }
 
   function nextMonth() {
@@ -188,16 +153,12 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
     }
     setSelectedDate(null);
     setSelectedSlot(null);
-    setSelectedSlotLabel(null);
-    setBackendSlots([]);
   }
 
   function handleYearSelect(y: number) {
     setViewYear(y);
     setSelectedDate(null);
     setSelectedSlot(null);
-    setSelectedSlotLabel(null);
-    setBackendSlots([]);
   }
 
   function isDateDisabled(day: number): boolean {
@@ -208,15 +169,10 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
     return false;
   }
 
-  function hasAvailableSlots(day: number): boolean {
-    return availableDays.has(day);
-  }
-
   function selectDate(day: number) {
     if (isDateDisabled(day)) return;
     setSelectedDate(day);
     setSelectedSlot(null);
-    setSelectedSlotLabel(null);
   }
 
   const canContinue = selectedDate !== null && selectedSlot !== null;
@@ -249,12 +205,12 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
             className="sch-nav__arrow"
             onClick={prevMonth}
             disabled={atMin}
-            aria-label="Mois précédent"
+            aria-label="Mois pr\u00e9c\u00e9dent"
           >
             <IconChevronLeft className="sch-nav__arrow-icon" />
           </button>
           <span className="sch-nav__headline">
-            {MONTH_NAMES_FR[viewMonth]} {viewYear}
+            {MONTH_NAMES_FR[viewMonth]}\u00a0{viewYear}
           </span>
           <button
             type="button"
@@ -271,7 +227,7 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
             <button
               key={y}
               type="button"
-              className={`sch-year-tab${viewYear === y ? " sch-year-tab--sel" : ""}`}
+              className={\`sch-year-tab\${viewYear === y ? " sch-year-tab--sel" : ""}\`}
               onClick={() => handleYearSelect(y)}
             >
               {y}
@@ -286,26 +242,17 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
             <span key={i} className="sch-cal__dow">{l}</span>
           ))}
         </div>
-        {daysLoading ? (
-          <div className="sch-cal__grid">
-            {Array.from({ length: 35 }).map((_, i) => (
-              <span key={i} className="sch-cal__day sch-cal__day--skeleton" aria-hidden="true" />
-            ))}
-          </div>
-        ) : (
         <div className="sch-cal__grid">
           {cells.map((cell, i) => {
             if (cell.month !== "curr") {
               return <span key={i} className="sch-cal__day sch-cal__day--other">{cell.day}</span>;
             }
-            const disabled  = isDateDisabled(cell.day);
+            const disabled = isDateDisabled(cell.day);
             const selected  = selectedDate === cell.day;
-            const hasSlotsAvailable = !disabled && hasAvailableSlots(cell.day);
             let cls = "sch-cal__day";
-            if (disabled)         cls += " sch-cal__day--disabled";
-            else if (selected)    cls += " sch-cal__day--selected";
-            else if (hasSlotsAvailable) cls += " sch-cal__day--available";
-            else                  cls += " sch-cal__day--no-slots";
+            if (disabled)      cls += " sch-cal__day--disabled";
+            else if (selected) cls += " sch-cal__day--selected";
+            else               cls += " sch-cal__day--available";
             return (
               <button
                 key={i}
@@ -314,19 +261,18 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
                 onClick={() => selectDate(cell.day)}
                 disabled={disabled}
                 aria-pressed={selected}
-                aria-label={`${cell.day} ${MONTH_NAMES_FR[viewMonth]}`}
+                aria-label={\`\${cell.day} \${MONTH_NAMES_FR[viewMonth]}\`}
               >
                 {cell.day}
               </button>
             );
           })}
         </div>
-        )}
       </div>
 
       <div className="sch-slots">
         <p className="sch-slots__title">
-          Créneaux disponibles
+          Cr\u00e9neaux disponibles
           {selectedDate && (
             <span className="sch-slots__date">
               {" "}&mdash;{" "}{selectedDate} {MONTH_NAMES_FR[viewMonth]}
@@ -334,38 +280,27 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
           )}
         </p>
         {!selectedDate ? (
-          <p className="sch-slots__empty">Sélectionnez un jour dans le calendrier.</p>
-        ) : slotsLoading ? (
-          <p className="sch-slots__empty">Chargement des créneaux…</p>
-        ) : slotsError ? (
-          <p className="sch-slots__empty">{slotsError}</p>
-        ) : backendSlots.length === 0 ? (
-          <p className="sch-slots__empty">Aucun créneau disponible pour ce jour.</p>
+          <p className="sch-slots__empty">S\u00e9lectionnez un jour dans le calendrier.</p>
         ) : (
           <div className="sch-slots__list">
-            {backendSlots.map((slot) => {
-              const label = formatSlotTime(slot.startAt);
-              const sel   = selectedSlot === slot.id;
+            {slots.map(({ time, full }) => {
+              const sel = selectedSlot === time;
               let cls = "sch-slot";
-              if (!slot.available) cls += " sch-slot--full";
-              else if (sel)        cls += " sch-slot--selected";
-              else                 cls += " sch-slot--free";
+              if (full)      cls += " sch-slot--full";
+              else if (sel)  cls += " sch-slot--selected";
+              else           cls += " sch-slot--free";
               return (
                 <button
-                  key={slot.id}
+                  key={time}
                   type="button"
                   className={cls}
-                  onClick={() => {
-                    if (!slot.available) return;
-                    setSelectedSlot(slot.id);
-                    setSelectedSlotLabel(label);
-                  }}
-                  disabled={!slot.available}
+                  onClick={() => !full && setSelectedSlot(time)}
+                  disabled={full}
                   aria-pressed={sel}
                 >
-                  {label}
+                  {time}
                   <span className="sch-slot__badge">
-                    {!slot.available ? "complet" : sel ? "sélectionné" : "disponible"}
+                    {full ? "complet" : sel ? "s\u00e9lectionn\u00e9" : "disponible"}
                   </span>
                 </button>
               );
@@ -374,7 +309,7 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
         )}
         <div className="sch-slots__notice">
           <IconInfo className="sch-slots__notice-icon" />
-          <span>Les rendez-vous sont confirmés par e-mail sous 48&nbsp;h.</span>
+          <span>Les rendez-vous sont confirm\u00e9s par e-mail sous 48&nbsp;h.</span>
         </div>
       </div>
 
@@ -388,7 +323,7 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
           className="apf-submit"
           style={{ flex: 1 }}
           disabled={!canContinue}
-          onClick={() => onNext({ day: selectedDate!, month: viewMonth, year: viewYear, slotId: selectedSlot!, slotLabel: selectedSlotLabel! })}
+          onClick={onNext}
         >
           Continuer
           <IconArrowRight className="apf-submit__icon" />
@@ -397,3 +332,7 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
     </section>
   );
 }
+`;
+
+writeFileSync(OUT, SRC, { encoding: "utf8" });
+console.log("written", OUT);

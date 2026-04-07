@@ -2,7 +2,7 @@
 
 export type SessionData = {
   trackingResult?: {
-    status: "ready" | "pending" | "not_found" | "blocked";
+    status: "ready" | "pending" | "not_found" | "blocked" | "rate_limited";
     availableAt?: string;
   };
 };

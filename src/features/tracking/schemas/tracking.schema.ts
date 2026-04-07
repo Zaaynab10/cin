@@ -16,7 +16,7 @@ export const trackingRequestSchema = z.object({
 
 // Status payload expected from backend tracking endpoint.
 export const trackingResponseSchema = z.object({
-  status: z.enum(["ready", "pending", "not_found", "blocked"]),
+  status: z.enum(["ready", "pending", "not_found", "blocked", "rate_limited"]),
   availableAt: z.string().optional()
 });
 

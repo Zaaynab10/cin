@@ -1,12 +1,16 @@
-// Expected: Tracking result page. Read server session result and render status-specific UI.
+// Expected: Tracking result page. Read status from URL params and render status-specific UI.
 import { TrackingResultState } from "../../../features/tracking/components/tracking-result-state";
+import type { TrackingStatus } from "../../../features/tracking/types/tracking.types";
 
-export default function TrackingResultPage() {
-  // TODO: read tracking result from session on the server.
+const VALID_STATUSES: TrackingStatus[] = ["ready", "pending", "not_found", "blocked", "rate_limited"];
 
-  return (
-    <main className="container-page">
-      <TrackingResultState status="pending" />
-    </main>
-  );
+type Props = { searchParams: Promise<{ status?: string }> };
+
+export default async function TrackingResultPage({ searchParams }: Props) {
+  const { status } = await searchParams;
+  const resolved = VALID_STATUSES.includes(status as TrackingStatus)
+    ? (status as TrackingStatus)
+    : "not_found";
+
+  return <TrackingResultState status={resolved} />;
 }

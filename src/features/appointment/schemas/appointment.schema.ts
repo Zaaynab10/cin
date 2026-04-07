@@ -2,7 +2,8 @@
 import { z } from "zod";
 
 export const appointmentSchema = z.object({
-  nin: z.string().regex(/^\d{9}$/),
+  // NIN sénégalais CEDEAO : [1|2][A-Z]\d{11} — 13 chars — ex : 1G01198500654
+  nin: z.string().trim().toUpperCase().regex(/^[12][A-Z]\d{11}$/),
   fullName: z.string().min(3).max(100),
   email: z.string().email(),
   phone: z.string().min(8).max(20),

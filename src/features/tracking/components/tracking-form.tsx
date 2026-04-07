@@ -47,16 +47,21 @@ function ArrowRightIcon() {
   );
 }
 
+// NIN format: [1|2][A-Z][0-9]{11} = 13 chars
+const NIN_REGEX = /^[12][A-Z]\d{11}$/;
+
 // Composant React responsable de la saisie du NIN et de l'envoi de la requete.
 export function TrackingForm() {
   // nin contient la valeur actuellement tapee dans l'input.
   const [nin, setNin] = useState("");
   // isLoading permet de savoir si une requete est en cours.
   const [isLoading, setIsLoading] = useState(false);
-  // errorMessage contient un message a afficher si la requete echoue.
+  // errorMessage contient un message a afficher si la requete echoue (erreur réseau uniquement).
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   // router donne acces a la navigation programmatique cote client.
   const router = useRouter();
+
+  const isValidNin = NIN_REGEX.test(nin);
 
   // Soumission moderne: on controle la requete en JavaScript.
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -77,19 +82,23 @@ export function TrackingForm() {
         body: JSON.stringify({ nin })
       });
 
-      // Si le serveur renvoie une erreur HTTP (400, 500...), on la traite.
+      // Si le serveur renvoie une erreur HTTP, on la traite.
       if (!response.ok) {
-        // On tente de lire le JSON d'erreur sans faire planter l'UI si le corps est vide.
-        const errorBody = (await response.json().catch(() => null)) as
-          | { message?: string }
-          | null;
-        // On affiche le message du serveur s'il existe, sinon un message generique.
-        setErrorMessage(errorBody?.message ?? "Requête invalide");
+        // 429 = rate limited → on redirige vers la page dédiée
+        if (response.status === 429) {
+          router.push("/track/result?status=rate_limited");
+          return;
+        }
+        // 400 = format invalide côté serveur (ne devrait pas arriver car le bouton est désactivé)
+        // On ne montre pas d'erreur rouge pour ça.
         return;
       }
 
       // Si tout se passe bien, on navigue vers la page de resultat.
-      router.push("/track/result");
+      const result = (await response.json()) as { status: string; availableAt?: string };
+      const params = new URLSearchParams({ status: result.status });
+      if (result.availableAt) params.set("availableAt", result.availableAt);
+      router.push(`/track/result?${params.toString()}`);
     } catch {
       // Cette branche capte surtout les erreurs reseau ou serveur inaccessible.
       setErrorMessage("Erreur réseau, réessayez dans un instant");
@@ -117,8 +126,6 @@ export function TrackingForm() {
           onChange={(event) => setNin(event.target.value.toUpperCase())}
           placeholder="Ex: 1G01198500654"
           maxLength={13}
-          pattern="[12][A-Za-z][0-9]{11}"
-          required
           disabled={isLoading}
           className="tracking-form-card__field"
           aria-describedby="nin-help"
@@ -136,7 +143,7 @@ export function TrackingForm() {
         <span>Format attendu : 13 caractères (1/2 + lettre + 11 chiffres)</span>
       </p>
 
-      <button type="submit" disabled={isLoading} className="tracking-form-card__submit">
+      <button type="submit" disabled={!isValidNin || isLoading} className="tracking-form-card__submit">
         <span>{isLoading ? "Vérification..." : "Consulter le statut de ma demande"}</span>
         <ArrowRightIcon />
       </button>

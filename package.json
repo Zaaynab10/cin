@@ -8,7 +8,9 @@
     "test": "tests"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
@@ -22,6 +24,13 @@
   "dependencies": {
     "next": "^16.2.1",
     "react": "^19.2.4",
-    "react-dom": "^19.2.4"
+    "react-dom": "^19.2.4",
+    "zod": "^4.3.6"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.14",
+    "@vitest/coverage-v8": "^4.1.2",
+    "typescript": "6.0.2",
+    "vitest": "^4.1.2"
   }
 }
