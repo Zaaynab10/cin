@@ -518,8 +518,8 @@ img {
 }
 
 /* ── Icône ────────────────────────────────────────────────────────────────── */
+/* biome-ignore lint/style/noDescendingSpecificity: structure responsive volontaire */
 .rs__icon-wrap {
-	/* biome-ignore lint/style/noDescendingSpecificity: structure responsive volontaire */
 	width: 56px;
 	height: 56px;
 	border-radius: 50%;
@@ -528,9 +528,6 @@ img {
 	align-items: center;
 	justify-content: center;
 	margin-bottom: 14px;
-}
-
-.rs__icon {
 }
 
 /* ── Titre & sous-titre ───────────────────────────────────────────────────── */
