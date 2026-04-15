@@ -1,10 +1,10 @@
 // Expected: Global runtime error UI for app router segment failures.
 "use client";
 import Link from "next/link";
-import { IconAlertTriangle } from "../components/icons/IconAlertTriangle";
 import { IconAlertCircle } from "../components/icons/IconAlertCircle";
-import { IconRotateCcw } from "../components/icons/IconRotateCcw";
+import { IconAlertTriangle } from "../components/icons/IconAlertTriangle";
 import { IconHome } from "../components/icons/IconHome";
+import { IconRotateCcw } from "../components/icons/IconRotateCcw";
 
 type Props = { error: Error & { digest?: string }; reset: () => void };
 

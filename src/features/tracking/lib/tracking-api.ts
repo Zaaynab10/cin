@@ -1,8 +1,8 @@
 // Expected: Tracking API adapter. Centralize backend calls and response parsing.
 import { apiClient } from "../../../lib/api/client";
 import {
-	trackingResponseSchema,
 	type TrackingResponse,
+	trackingResponseSchema,
 } from "../schemas/tracking.schema";
 
 export async function fetchTrackingStatus(

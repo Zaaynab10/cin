@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { appointmentSchema } from "../../src/features/appointment/schemas/appointment.schema";
 
 // ─── Données valides de base ───────────────────────────────────────────────

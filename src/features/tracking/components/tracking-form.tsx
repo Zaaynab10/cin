@@ -6,9 +6,8 @@
 import { useRouter } from "next/navigation";
 // useState stocke l'etat local du composant.
 // FormEvent donne le bon type TypeScript pour l'evenement du formulaire.
-import { useState, type FormEvent } from "react";
 // Chargement dynamique du fichier JSON côté client
-import { useEffect } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 
 function IdCardIcon() {
 	return (

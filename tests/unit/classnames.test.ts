@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { classNames } from "../../src/lib/utils/classnames";
 
 describe("classNames", () => {

@@ -50,9 +50,11 @@ function IconInfo({ className }: SvgProps) {
 const NAME_RE = /^[a-zA-ZÀ-ÿ' ]+$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const DIGITS_RE = /^\d+$/;
+
 // NIN sénégalais CEDEAO : [1|2][A-Z]\d{11} = 13 chars, ex: 1G01198500654
 
 import etatCivilData from "../../../../etat_civil_senegal.json";
+
 const NIN_RE = /^[12](\d{3}|[A-Z]\d{2})\d{4}\d{5}$/;
 
 function errNom(v: string) {
@@ -93,7 +95,7 @@ function errEmail(v: string) {
 		return "Format d'email invalide (ex. nom@domaine.fr).";
 }
 function errTel(v: string) {
-	const clean = v.replace(/[\s\-\+\(\)]/g, "");
+	const clean = v.replace(/[\s\-+()]/g, "");
 	if (!clean) return "Le numéro de téléphone est obligatoire.";
 	if (!DIGITS_RE.test(clean))
 		return "Chiffres uniquement (ex. +33 6 12 34 56 78).";

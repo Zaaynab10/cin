@@ -1,7 +1,7 @@
 // Expected: 404 Not Found page. Shown when navigating to a non-existent route.
 import Link from "next/link";
-import { IconLock } from "../components/icons/IconLock";
 import { IconArrowLeft } from "../components/icons/IconArrowLeft";
+import { IconLock } from "../components/icons/IconLock";
 import { IconSearch } from "../components/icons/IconSearch";
 
 export default function NotFoundPage() {

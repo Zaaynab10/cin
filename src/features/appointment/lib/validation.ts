@@ -27,7 +27,7 @@ export function errEmail(v: string) {
 		return "Format d'email invalide (ex. nom@domaine.fr).";
 }
 export function errTel(v: string) {
-	const clean = v.replace(/[\s\-\+\(\)]/g, "");
+	const clean = v.replace(/[\s\-+()]/g, "");
 	if (!clean) return "Le numéro de téléphone est obligatoire.";
 	if (!DIGITS_RE.test(clean))
 		return "Chiffres uniquement (ex. +33 6 12 34 56 78).";

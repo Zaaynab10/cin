@@ -1,6 +1,6 @@
 import { promises as fs } from "node:fs";
-import { NextResponse } from "next/server";
 import path from "node:path";
+import { NextResponse } from "next/server";
 
 export async function GET() {
 	// On lit le fichier JSON côté serveur (hors dossier public)

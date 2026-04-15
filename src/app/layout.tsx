@@ -1,8 +1,8 @@
 // Expected: Root layout shared by all pages. Keep global styles and app shell only.
 import "../styles/globals.css";
 
-import { Inter } from "next/font/google";
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
 import { SiteHeader } from "../components/layout/site-header";

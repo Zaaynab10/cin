@@ -2,14 +2,14 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import {
-	getAppointment,
-	updateAppointment,
-	cancelAppointment,
-	fetchSlots,
-} from "../lib/appointment-api";
 import { mapApiError } from "../../../lib/errors/map-api-error";
 import { toParisDisplay } from "../../../lib/utils/date";
+import {
+	cancelAppointment,
+	fetchSlots,
+	getAppointment,
+	updateAppointment,
+} from "../lib/appointment-api";
 import type { AppointmentDetailsModel } from "../types/appointment.types";
 
 // ─── Constants ────────────────────────────────────────────────────────────────

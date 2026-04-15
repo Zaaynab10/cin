@@ -1,4 +1,4 @@
-import { describe, it, expect } from "vitest";
+import { describe, expect, it } from "vitest";
 import { AppError } from "../../src/lib/errors/app-error";
 import { mapApiError } from "../../src/lib/errors/map-api-error";
 

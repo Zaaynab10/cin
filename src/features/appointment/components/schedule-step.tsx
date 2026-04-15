@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchSlots, fetchAvailableDays } from "../lib/appointment-api";
+import { fetchAvailableDays, fetchSlots } from "../lib/appointment-api";
 import type { ScheduleData } from "../types/appointment.types";
 
 // Slot types

@@ -1,4 +1,4 @@
-import { describe, it, expect, vi, beforeEach } from "vitest";
+import { beforeEach, describe, expect, it, vi } from "vitest";
 
 // ─── Mock next/server avant tout import du handler ───────────────────────────
 // NextResponse.json() retourne un objet simple inspectable dans les tests.

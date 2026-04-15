@@ -1,7 +1,7 @@
 // Expected: Show final summary before submit and trigger appointment creation.
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Alert } from "../../../components/ui/alert";
 import { createAppointment } from "../lib/appointment-api";
 import type {
