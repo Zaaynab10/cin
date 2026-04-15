@@ -154,10 +154,10 @@ export function AppointmentTypeSelector() {
 				aria-label="Choix de démarche"
 			>
 				<div className="apt-zone__inner">
-					  <ul className="apt-rows">
+					<ul className="apt-rows">
 						{APPOINTMENT_TYPES.map(
 							({ value, Icon, label, description, badge }) => (
-								<div key={value} className="apt-row" role="listitem">
+								<li key={value} className="apt-row">
 									<div className="apt-row__icon-wrap">
 										<Icon className="apt-row__icon" />
 									</div>
@@ -178,10 +178,10 @@ export function AppointmentTypeSelector() {
 										Choisir
 										<IconArrowRight className="apt-row__cta-icon" />
 									</Link>
-								</div>
+								</li>
 							),
 						)}
-					</div>
+					</ul>
 				</div>
 			</section>
 		</div>
