@@ -457,38 +457,37 @@ export function AppointmentDetails({ token }: AppointmentDetailsProps) {
 
 			{/* ── Actions ── */}
 			{mode === "view" && (
-				<>
-					{showCancelConfirm ? (
-						<div className="rdv-confirm-cancel">
-							<p className="rdv-confirm-cancel__text">
-								Êtes-vous sûr(e) de vouloir annuler ce rendez-vous ?
-							</p>
-							{cancelError && <p className="rdv-error__text">{cancelError}</p>}
-							<div className="apf-actions">
-								<button
-									type="button"
-									className="apf-back"
-									onClick={() => {
-										setShowCancelConfirm(false);
-										setCancelError(null);
-									}}
-									disabled={cancelLoading}
-								>
-									<IconArrowLeft className="apf-back__icon" />
-									Retour
-								</button>
-								<button
-									type="button"
-									className="apf-submit apf-submit--danger"
-									style={{ flex: 1 }}
-									onClick={handleCancel}
-									disabled={cancelLoading}
-								>
-									{cancelLoading ? "Annulation…" : "Confirmer l'annulation"}
-								</button>
-							</div>
+				{showCancelConfirm ? (
+					<div className="rdv-confirm-cancel">
+						<p className="rdv-confirm-cancel__text">
+							Êtes-vous sûr(e) de vouloir annuler ce rendez-vous ?
+						</p>
+						{cancelError && <p className="rdv-error__text">{cancelError}</p>}
+						<div className="apf-actions">
+							<button
+								type="button"
+								className="apf-back"
+								onClick={() => {
+									setShowCancelConfirm(false);
+									setCancelError(null);
+								}}
+								disabled={cancelLoading}
+							>
+								<IconArrowLeft className="apf-back__icon" />
+								Retour
+							</button>
+							<button
+								type="button"
+								className="apf-submit apf-submit--danger"
+								style={{ flex: 1 }}
+								onClick={handleCancel}
+								disabled={cancelLoading}
+							>
+								{cancelLoading ? "Annulation…" : "Confirmer l'annulation"}
+							</button>
 						</div>
-					) : (
+					</div>
+				) : (
 						<div className="apf-actions" style={{ marginTop: "24px" }}>
 							{data.canEdit && (
 								<button
