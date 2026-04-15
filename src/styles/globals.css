@@ -519,6 +519,7 @@ img {
 
 /* ── Icône ────────────────────────────────────────────────────────────────── */
 .rs__icon-wrap {
+	/* biome-ignore lint/style/noDescendingSpecificity: structure responsive volontaire */
 	width: 56px;
 	height: 56px;
 	border-radius: 50%;
