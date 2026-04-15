@@ -1,6 +1,6 @@
+import { promises as fs } from "node:fs";
 import { NextResponse } from "next/server";
-import { promises as fs } from "fs";
-import path from "path";
+import path from "node:path";
 
 export async function GET() {
 	// On lit le fichier JSON côté serveur (hors dossier public)
@@ -9,7 +9,7 @@ export async function GET() {
 		const data = await fs.readFile(filePath, "utf-8");
 		const json = JSON.parse(data);
 		return NextResponse.json(json);
-	} catch (error) {
+	} catch (_error) {
 		return NextResponse.json(
 			{ error: "Fichier non trouvé ou illisible" },
 			{ status: 500 },
