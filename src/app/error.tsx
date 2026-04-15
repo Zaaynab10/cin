@@ -1,48 +1,23 @@
 // Expected: Global runtime error UI for app router segment failures.
 "use client";
 import Link from "next/link";
+import { IconAlertTriangle } from "../components/icons/IconAlertTriangle";
+import { IconAlertCircle } from "../components/icons/IconAlertCircle";
+import { IconRotateCcw } from "../components/icons/IconRotateCcw";
+import { IconHome } from "../components/icons/IconHome";
 
-function IconAlertTriangle({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z" />
-      <line x1="12" y1="9" x2="12" y2="13" />
-      <line x1="12" y1="17" x2="12.01" y2="17" />
-    </svg>
-  );
-}
-
-function IconAlertCircle({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <circle cx="12" cy="12" r="10" />
-      <line x1="12" y1="8" x2="12" y2="12" />
-      <line x1="12" y1="16" x2="12.01" y2="16" />
-    </svg>
-  );
-}
-
-function IconRotateCcw({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <polyline points="1 4 1 10 7 10" />
-      <path d="M3.51 15a9 9 0 1 0 .49-3.5" />
-    </svg>
-  );
-}
-
-function IconHome({ className }: { className?: string }) {
-  return (
-    <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z" />
-      <polyline points="9 22 9 12 15 12 15 22" />
-    </svg>
-  );
-}
 
 type Props = { error: Error & { digest?: string }; reset: () => void };
 
 export default function GlobalError({ reset }: Props) {
+  // Recharge complet de la page pour vraiment relancer l'app et l'API
+  function handleReload() {
+    if (typeof window !== "undefined") {
+      window.location.reload();
+    } else {
+      reset();
+    }
+  }
   return (
     <div className="ep ep--error">
       <div className="ep__inner">
@@ -63,7 +38,7 @@ export default function GlobalError({ reset }: Props) {
           </p>
         </div>
         <div className="ep__actions">
-          <button className="ep__cta ep__cta--error" onClick={reset}>
+          <button className="ep__cta ep__cta--error" onClick={handleReload}>
             <IconRotateCcw className="ep__cta-icon" /> Réessayer
           </button>
           <Link className="ep__secondary" href="/">
