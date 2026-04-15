@@ -1883,12 +1883,12 @@ img {
 /* Available → vert plein */
 /* TEST: fond rouge vif pour debug */
 .sch-cal__day--available {
-  background: #ff2222 !important;
-  color: #fff !important;
-  border: 2px solid #ff2222;
+  background: color-mix(in srgb, var(--color-brand-green) 30%, white) !important;
+  color: var(--color-brand-green) !important;
+  border: 2px solid color-mix(in srgb, var(--color-brand-green) 30%, white);
   font-weight: 700;
   font-size: 1.1rem;
-  text-shadow: 0 1px 0 #fff, 0 0 2px #ff222288;
+  text-shadow: 0 1px 0 #fff, 0 0 2px color-mix(in srgb, var(--color-brand-green) 20%, white);
 }
 
 .sch-cal__day--available:hover {
