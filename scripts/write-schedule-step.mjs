@@ -3,7 +3,10 @@ import { join, dirname } from "path";
 import { fileURLToPath } from "url";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
-const OUT = join(__dirname, "../src/features/appointment/components/schedule-step.tsx");
+const OUT = join(
+	__dirname,
+	"../src/features/appointment/components/schedule-step.tsx",
+);
 
 const SRC = `\
 // Expected: Display available slots and let user pick a valid time slot.

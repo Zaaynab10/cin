@@ -4,19 +4,19 @@ import { env } from "../config/env";
 type ApiOptions = RequestInit;
 
 export async function apiClient(path: string, options?: ApiOptions) {
-  const response = await fetch(`${env.backendApiUrl}${path}`, {
-    ...options,
-    headers: {
-      "Content-Type": "application/json",
-      ...(options?.headers ?? {})
-    }
-  });
+	const response = await fetch(`${env.backendApiUrl}${path}`, {
+		...options,
+		headers: {
+			"Content-Type": "application/json",
+			...(options?.headers ?? {}),
+		},
+	});
 
-  const data = await response.json().catch(() => ({}));
+	const data = await response.json().catch(() => ({}));
 
-  if (!response.ok) {
-    throw data;
-  }
+	if (!response.ok) {
+		throw data;
+	}
 
-  return data;
+	return data;
 }
