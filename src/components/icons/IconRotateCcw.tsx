@@ -1,4 +1,3 @@
-import React from "react";
 
 export function IconRotateCcw({ className }: { className?: string }) {
 	return (

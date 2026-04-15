@@ -1,4 +1,3 @@
-import React from "react";
 
 export function IconSearch({ className }: { className?: string }) {
 	return (

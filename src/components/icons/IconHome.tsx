@@ -1,4 +1,3 @@
-import React from "react";
 
 export function IconHome({ className }: { className?: string }) {
 	return (
