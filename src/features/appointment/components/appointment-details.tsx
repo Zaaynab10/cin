@@ -15,71 +15,73 @@ import type { AppointmentDetailsModel } from "../types/appointment.types";
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const TYPE_LABELS: Record<string, string> = {
-	pickup: "Retrait de CIN",
-	new_request: "Nouvelle demande de CIN",
-	renewal: "Renouvellement de CIN",
-};
-
-const STATUS_LABELS: Record<string, string> = {
-	scheduled: "Confirmé",
-	cancelled: "Annulé",
-	done: "Effectué",
-	pending: "En attente",
-};
+			{mode === "view" && (
 				<>
-
-// ─── Types ────────────────────────────────────────────────────────────────────
-
-type SlotItem = {
-	id: string;
-	startAt: string;
-	endAt: string;
-	available: boolean;
-};
-
-type Mode = "view" | "edit" | "cancelled" | "updated";
-
-// ─── Icons ────────────────────────────────────────────────────────────────────
-
-type SvgProps = { className?: string };
-
-function IconCheck({ className }: SvgProps) {
-	return (
-		<svg
-			className={className}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2.5"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<polyline points="20 6 9 17 4 12" />
-		</svg>
-	);
-}
-
-function IconX({ className }: SvgProps) {
-	return (
-		<svg
-			className={className}
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			strokeWidth="2.5"
-			strokeLinecap="round"
-			strokeLinejoin="round"
-			aria-hidden="true"
-		>
-			<line x1="18" y1="6" x2="6" y2="18" />
-			<line x1="6" y1="6" x2="18" y2="18" />
-		</svg>
-	);
-}
-
-function IconAlertCircle({ className }: SvgProps) {
-	return (
+					{showCancelConfirm ? (
+						<div className="rdv-confirm-cancel">
+							<p className="rdv-confirm-cancel__text">
+								Êtes-vous sûr(e) de vouloir annuler ce rendez-vous ?
+							</p>
+							{cancelError && <p className="rdv-error__text">{cancelError}</p>}
+							<div className="apf-actions">
+								<button
+									type="button"
+									className="apf-back"
+									onClick={() => {
+										setShowCancelConfirm(false);
+										setCancelError(null);
+									}}
+									disabled={cancelLoading}
+								>
+									<IconArrowLeft className="apf-back__icon" />
+									Retour
+								</button>
+								<button
+									type="button"
+									className="apf-submit apf-submit--danger"
+									style={{ flex: 1 }}
+									onClick={handleCancel}
+									disabled={cancelLoading}
+								>
+									{cancelLoading ? "Annulation…" : "Confirmer l'annulation"}
+								</button>
+							</div>
+						</div>
+					) : (
+						<div className="apf-actions" style={{ marginTop: "24px" }}>
+							{data.canEdit && (
+								<button
+									type="button"
+									className="apf-back"
+									onClick={handleEnterEdit}
+								>
+									<IconEdit className="apf-back__icon" />
+									Modifier
+								</button>
+							)}
+							{data.canCancel && (
+								<button
+									type="button"
+									className="apf-submit apf-submit--danger"
+									style={{
+										flex: data.canEdit ? 1 : undefined,
+										width: data.canEdit ? undefined : "100%",
+									}}
+									onClick={() => setShowCancelConfirm(true)}
+								>
+									Annuler le rendez-vous
+								</button>
+							)}
+							{!data.canEdit && !data.canCancel && (
+								<p className="rdv-edit__hint" style={{ padding: "12px 0" }}>
+									Ce rendez-vous ne peut plus être modifié ni annulé (moins de
+									48h avant l&apos;heure prévue).
+								</p>
+							)}
+						</div>
+					)}
+				</>
+			)}
 		<svg
 			className={className}
 			viewBox="0 0 24 24"
