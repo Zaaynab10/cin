@@ -100,6 +100,10 @@ type ScheduleStepProps = {
   onPrevious: () => void;
 };
 
+
+type ScheduleFields = { date: number | null; slot: string | null };
+type ScheduleErrs = Partial<Record<keyof ScheduleFields, string>>;
+
 export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleStepProps) {
   const [viewYear,          setViewYear]          = useState(TODAY.getFullYear());
   const [viewMonth,         setViewMonth]         = useState(TODAY.getMonth());
@@ -108,9 +112,12 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
   const [selectedSlotLabel, setSelectedSlotLabel] = useState<string | null>(null);
   const [backendSlots,      setBackendSlots]      = useState<BackendSlot[]>([]);
   const [slotsLoading,      setSlotsLoading]      = useState(false);
-  const [slotsError,        setSlotsError]        = useState<string | null>(null);
   const [availableDays,     setAvailableDays]     = useState<Set<number>>(new Set());
   const [daysLoading,       setDaysLoading]       = useState(false);
+  const [errors, setErrors] = useState<ScheduleErrs>({});
+  const [submitted, setSubmitted] = useState(false);
+  // Pour l’erreur de chargement des créneaux
+  const [slotsError, setSlotsError] = useState<string | null>(null);
 
   // Load available days whenever month/year/type changes
   useEffect(() => {
@@ -123,6 +130,12 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
       .then((res) => {
         console.log("DEBUG fetchAvailableDays response", res);
         if (!cancelled) {
+          // Ajout du log détaillé
+          if (!res || !Array.isArray(res.days) || res.days.length === 0) {
+            console.warn("Aucun jour disponible reçu :", res);
+          } else {
+            console.info("Jours disponibles reçus :", res.days);
+          }
           const days = ((res as { days?: number[] }).days) ?? [];
           setAvailableDays(new Set(days));
         }
@@ -215,14 +228,35 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
     return availableDays.has(day);
   }
 
+
+  function errDate(day: number | null) {
+    if (!day) return "Veuillez sélectionner une date.";
+  }
+  function errSlot(slot: string | null) {
+    if (!slot) return "Veuillez choisir un créneau horaire.";
+  }
+  function validateAll(f: ScheduleFields): ScheduleErrs {
+    return {
+      date: errDate(f.date),
+      slot: errSlot(f.slot),
+    };
+  }
+
+  function revalidate(overrides?: Partial<ScheduleFields>) {
+    if (!submitted) return;
+    const fields: ScheduleFields = { date: selectedDate, slot: selectedSlot, ...overrides };
+    setErrors(validateAll(fields));
+  }
+
   function selectDate(day: number) {
     if (isDateDisabled(day)) return;
     setSelectedDate(day);
     setSelectedSlot(null);
     setSelectedSlotLabel(null);
+    revalidate({ date: day, slot: null });
   }
 
-  const canContinue = selectedDate !== null && selectedSlot !== null;
+  const canContinue = !Object.values(validateAll({ date: selectedDate, slot: selectedSlot })).some(Boolean);
   const atMin = viewYear === minYear && viewMonth === 0;
   const atMax = viewYear === maxYear && viewMonth === 11;
 
@@ -394,11 +428,21 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
           className="apf-submit"
           style={{ flex: 1 }}
           disabled={!canContinue}
-          onClick={() => onNext({ day: selectedDate!, month: viewMonth, year: viewYear, slotId: selectedSlot!, slotLabel: selectedSlotLabel! })}
+          onClick={() => {
+            setSubmitted(true);
+            const fields: ScheduleFields = { date: selectedDate, slot: selectedSlot };
+            const errs = validateAll(fields);
+            setErrors(errs);
+            if (Object.values(errs).some(Boolean)) return;
+            onNext({ day: selectedDate!, month: viewMonth, year: viewYear, slotId: selectedSlot!, slotLabel: selectedSlotLabel! });
+          }}
         >
           Continuer
           <IconArrowRight className="apf-submit__icon" />
         </button>
+        {/* Affichage des erreurs sous le bouton */}
+        {(errors.date && submitted) && <p className="apf-field__error" role="alert">{errors.date}</p>}
+        {(errors.slot && submitted) && <p className="apf-field__error" role="alert">{errors.slot}</p>}
       </div>
     </section>
   );
