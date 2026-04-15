@@ -91,9 +91,9 @@ export function SuccessStep({ token, personalInfo, scheduleData, appointmentType
     : null;
   const dateLabel = d
     ? `${DAY_NAMES_FR[d.getDay()]} ${scheduleData!.day} ${MONTH_NAMES_FR[scheduleData!.month]} ${scheduleData!.year}`
-    : "—";
-  const timeLabel  = scheduleData?.slotLabel ?? "—";
-  const typeLabel  = appointmentType ? (TYPE_LABELS[appointmentType] ?? appointmentType) : "—";
+    : "";
+  const timeLabel  = scheduleData?.slotLabel ?? "";
+  const typeLabel  = appointmentType ? (TYPE_LABELS[appointmentType] ?? appointmentType) : "";
 
   return (
     <section className="apf-section">
@@ -109,7 +109,7 @@ export function SuccessStep({ token, personalInfo, scheduleData, appointmentType
 
         {/* Date + type pill */}
         <p className="suc__slot">
-          {dateLabel} — {timeLabel}<br />{typeLabel}
+          {dateLabel} {timeLabel}<br />{typeLabel}
         </p>
 
         {/* Separator */}

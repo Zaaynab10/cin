@@ -14,14 +14,14 @@ export type ScheduleData = {
 export type PersonalInfoData = {
   nom: string;
   prenom: string;
-  nin: string;   // 9 digits, stripped of spaces
+  nin?: string;  // Required for pickup/renewal, absent for new_request
   email: string;
   tel: string;
   consent: boolean;
 };
 
 export type AppointmentPayload = {
-  nin: string;
+  nin?: string;
   fullName: string;
   email: string;
   phone: string;

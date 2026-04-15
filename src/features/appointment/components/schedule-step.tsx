@@ -5,11 +5,11 @@ import { useEffect, useState } from "react";
 import { fetchSlots, fetchAvailableDays } from "../lib/appointment-api";
 import type { ScheduleData } from "../types/appointment.types";
 
-// --- Slot types ---------------------------------------------------------------
+// Slot types
 
 type BackendSlot = { id: string; startAt: string; endAt: string; available: boolean };
 
-// --- Calendar constants -------------------------------------------------------
+// Calendar constants
 
 const CLOSED_DAYS = [0];
 
@@ -23,7 +23,7 @@ const TODAY      = new Date();
 const CURR_YEAR  = TODAY.getFullYear();
 const YEAR_OPTIONS = [CURR_YEAR, CURR_YEAR + 1, CURR_YEAR + 2];
 
-// --- Helpers ------------------------------------------------------------------
+// Helpers
 
 function getDaysInMonth(year: number, month: number) {
   return new Date(year, month + 1, 0).getDate();
@@ -44,7 +44,7 @@ function toDateStr(day: number, month: number, year: number): string {
   return `${year}-${String(month + 1).padStart(2, "0")}-${String(day).padStart(2, "0")}`;
 }
 
-// --- Icons --------------------------------------------------------------------
+// Icons
 
 type SvgProps = { className?: string };
 
@@ -92,7 +92,7 @@ function IconInfo({ className }: SvgProps) {
   );
 }
 
-// --- Component ----------------------------------------------------------------
+// Component
 
 type ScheduleStepProps = {
   appointmentType?: string;
@@ -115,17 +115,20 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
   // Load available days whenever month/year/type changes
   useEffect(() => {
     if (!appointmentType) return;
+    console.log("DEBUG fetchAvailableDays params", { appointmentType, viewYear, viewMonth: viewMonth + 1 });
     let cancelled = false;
     setDaysLoading(true);
     setAvailableDays(new Set());
-    fetchAvailableDays(appointmentType, viewYear, viewMonth + 1) // month is 1-indexed for backend
+    fetchAvailableDays(appointmentType, viewYear, viewMonth + 1)
       .then((res) => {
+        console.log("DEBUG fetchAvailableDays response", res);
         if (!cancelled) {
           const days = ((res as { days?: number[] }).days) ?? [];
           setAvailableDays(new Set(days));
         }
       })
-      .catch(() => {
+      .catch((err) => {
+        console.log("DEBUG fetchAvailableDays error", err);
         if (!cancelled) setAvailableDays(new Set());
       })
       .finally(() => {
@@ -234,6 +237,9 @@ export function ScheduleStep({ appointmentType, onNext, onPrevious }: ScheduleSt
       cells.push({ day: i - firstOffset - daysInMonth + 1, month: "next" });
     }
   }
+
+  // DEBUG: Affiche les jours disponibles dans la console navigateur
+  console.log("availableDays", Array.from(availableDays));
 
   return (
     <section className="apf-section">

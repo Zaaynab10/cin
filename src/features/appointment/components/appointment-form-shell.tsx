@@ -66,6 +66,7 @@ export function AppointmentFormShell({ initialType }: AppointmentFormShellProps)
         {step === 1 && (
           <PersonalInfoStep
             initialData={personalInfo}
+            appointmentType={initialType}
             onNext={(data) => { setPersonalInfo(data); next(); }}
           />
         )}

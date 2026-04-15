@@ -1,7 +1,8 @@
 // Expected: Show final summary before submit and trigger appointment creation.
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
+import { Alert } from "../../../components/ui/alert";
 import { createAppointment } from "../lib/appointment-api";
 import type { PersonalInfoData, ScheduleData } from "../types/appointment.types";
 
@@ -80,6 +81,12 @@ export function ConfirmationStep({
   const [loading, setLoading] = useState(false);
   const [error,   setError]   = useState<string | null>(null);
   const [existingToken, setExistingToken] = useState<string | null>(null);
+  const errorRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    if (error && errorRef.current) {
+      errorRef.current.focus();
+    }
+  }, [error]);
 
   async function handleConfirm() {
     if (!personalInfo || !scheduleData || !appointmentType) return;
@@ -115,18 +122,18 @@ export function ConfirmationStep({
     : null;
   const dateLabel = d
     ? `${DAY_NAMES_FR[d.getDay()]} ${scheduleData!.day} ${MONTH_NAMES_FR[scheduleData!.month]} ${scheduleData!.year}`
-    : "—";
-  const typeLabel = appointmentType ? (TYPE_LABELS[appointmentType] ?? appointmentType) : "—";
+    : "";
+  const typeLabel = appointmentType ? (TYPE_LABELS[appointmentType] ?? appointmentType) : "";
 
   const rows: Array<{ label: string; value: string }> = [
     { label: "Type de démarche", value: typeLabel },
-    { label: "Nom",              value: personalInfo?.nom    ?? "—" },
-    { label: "Prénom",           value: personalInfo?.prenom ?? "—" },
-    { label: "NIN",              value: personalInfo?.nin    ?? "—" },
-    { label: "Email",            value: personalInfo?.email  ?? "—" },
-    { label: "Téléphone",        value: personalInfo?.tel    ?? "—" },
+    { label: "Nom",              value: personalInfo?.nom    ?? "" },
+    { label: "Prénom",           value: personalInfo?.prenom ?? "" },
+    { label: "NIN",              value: personalInfo?.nin    ?? "" },
+    { label: "Email",            value: personalInfo?.email  ?? "" },
+    { label: "Téléphone",        value: personalInfo?.tel    ?? "" },
     { label: "Date",             value: dateLabel },
-    { label: "Heure",            value: scheduleData?.slotLabel ?? "—" },
+    { label: "Heure",            value: scheduleData?.slotLabel ?? "" },
   ];
 
   return (
@@ -149,25 +156,15 @@ export function ConfirmationStep({
           ))}
         </ul>
 
-        {error === "ALREADY_EXISTS" ? (
-          <div className="conf-error conf-error--warning" role="alert">
-            <IconAlertCircle className="conf-error__icon" />
-            <div>
-              <p className="conf-error__text">
-                <strong>Un rendez-vous existe déjà pour ce NIN.</strong>
-              </p>
-              <p className="conf-error__text" style={{ marginTop: "6px" }}>
-                Pour le modifier ou l&apos;annuler, consultez l&apos;email de confirmation
-                intitulé <em>« Confirmation de votre rendez-vous — Consulat Général du Sénégal à Paris »</em> dans votre boîte mail.
-              </p>
-            </div>
+        {error && (
+          <div ref={errorRef} tabIndex={-1} style={{ outline: 'none', marginBottom: 16 }}>
+            <Alert>
+              {error === "ALREADY_EXISTS"
+                ? "Un rendez-vous existe déjà pour ce NIN. Consulte l’email de confirmation pour le modifier ou l’annuler."
+                : error}
+            </Alert>
           </div>
-        ) : error ? (
-          <div className="conf-error" role="alert">
-            <IconAlertCircle className="conf-error__icon" />
-            <p className="conf-error__text">{error}</p>
-          </div>
-        ) : null}
+        )}
 
         <div className="conf-actions">
           <button

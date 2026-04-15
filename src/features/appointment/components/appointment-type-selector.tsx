@@ -79,7 +79,7 @@ export function AppointmentTypeSelector() {
   return (
     <div className="apt-page">
 
-      {/* Zone 1 — Hero photo plein écran */}
+      {/* Zone 1 Hero photo plein écran */}
       <section className="apt-hero" aria-labelledby="apt-hero-title">
         <div className="apt-hero__media" aria-hidden="true" />
         <div className="apt-hero__overlay" aria-hidden="true" />
@@ -96,7 +96,7 @@ export function AppointmentTypeSelector() {
         </div>
       </section>
 
-      {/* Zone 2 — Question : quelle démarche ? */}
+      {/* Zone 2 Question : quelle démarche ? */}
       <section className="apt-zone apt-zone--question" aria-labelledby="apt-zone-title">
         <div className="apt-zone__inner">
           <h2 id="apt-zone-title" className="apt-zone__heading">
@@ -109,7 +109,7 @@ export function AppointmentTypeSelector() {
         </div>
       </section>
 
-      {/* Zone 3 — Choix de démarches */}
+      {/* Zone 3 Choix de démarches */}
       <section className="apt-zone apt-zone--choices" aria-label="Choix de démarche">
         <div className="apt-zone__inner">
           <div className="apt-rows" role="list">
