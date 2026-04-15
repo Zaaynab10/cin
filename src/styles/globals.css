@@ -1,5 +1,15 @@
-/* Expected: Global app styles and utility classes only. Keep it minimal and predictable. */
+
 @import "./tokens.css";
+/* Mise en valeur des créneaux disponibles */
+.slot-available {
+  color: #219653;
+  font-weight: bold;
+}
+.slot-unavailable {
+  color: #bdbdbd;
+  opacity: 0.7;
+}
+/* Expected: Global app styles and utility classes only. Keep it minimal and predictable. */
 
 * {
   box-sizing: border-box;
@@ -1871,11 +1881,14 @@ img {
 }
 
 /* Available → vert plein */
+/* TEST: fond rouge vif pour debug */
 .sch-cal__day--available {
-  background: color-mix(in srgb, var(--color-brand-green) 14%, white);
-  color: var(--color-brand-green);
-  border: 1px solid color-mix(in srgb, var(--color-brand-green) 30%, transparent);
-  font-weight: 600;
+  background: #ff2222 !important;
+  color: #fff !important;
+  border: 2px solid #ff2222;
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-shadow: 0 1px 0 #fff, 0 0 2px #ff222288;
 }
 
 .sch-cal__day--available:hover {
