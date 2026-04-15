@@ -487,6 +487,24 @@ img {
 }
 .rs-page--neutral .rs__icon {
 	color: #1e2a36;
+
+	/* Place les sélecteurs génériques APRÈS les variantes pour éviter la descending specificity */
+	.rs__icon-wrap {
+		width: 56px;
+		height: 56px;
+		border-radius: 50%;
+		border: 1.5px solid;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-bottom: 14px;
+	}
+
+	.rs__icon {
+		display: block;
+		width: 26px;
+		height: 26px;
+	}
 }
 
 /* ── Conteneur principal ──────────────────────────────────────────────────── */
@@ -2076,8 +2094,8 @@ img {
 		in srgb,
 		var(--color-brand-green) 30%,
 		white
-	) !important;
-	color: var(--color-brand-green) !important;
+	);
+	color: var(--color-brand-green);
 	border: 2px solid color-mix(in srgb, var(--color-brand-green) 30%, white);
 	font-weight: 700;
 	font-size: 1.1rem;
