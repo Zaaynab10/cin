@@ -36,7 +36,6 @@ lint:
       - node_modules/
     policy: pull-push
   script:
-    - cd cin
     - npm run lint
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -48,7 +47,6 @@ typecheck:
   <<: *node_cache
   stage: validate
   script:
-    - cd cin
     - npm run typecheck
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
@@ -63,7 +61,6 @@ build:
   <<: *node_cache
   stage: build
   script:
-    - cd cin
     - npm run build
   variables:
     NEXT_PUBLIC_BACKEND_API_URL: $NEXT_PUBLIC_BACKEND_API_URL
