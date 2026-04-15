@@ -36,9 +36,8 @@ lint:
       - node_modules/
     policy: pull-push
   script:
-    - cd cin
     - npm ci
-    - npm run lint
+    - npx biome check . --max-diagnostics 100 --ignore-path .biomeignore
   rules:
     - if: $CI_PIPELINE_SOURCE == "merge_request_event"
     - if: $CI_COMMIT_BRANCH == "main"
