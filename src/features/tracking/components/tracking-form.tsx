@@ -7,6 +7,8 @@ import { useRouter } from "next/navigation";
 // useState stocke l'etat local du composant.
 // FormEvent donne le bon type TypeScript pour l'evenement du formulaire.
 import { useState, type FormEvent } from "react";
+// Chargement dynamique du fichier JSON côté client
+import { useEffect } from "react";
 
 function IdCardIcon() {
   return (
@@ -62,6 +64,18 @@ export function TrackingForm() {
   const router = useRouter();
 
   const isValidNin = NIN_REGEX.test(nin);
+  // Extraction du code d'état civil (lettre+2 chiffres ou 3 chiffres)
+  const [etatCivilCodes, setEtatCivilCodes] = useState<string[]>([]);
+  useEffect(() => {
+    fetch("/api/etat-civil-codes")
+      .then((res) => res.json())
+      .then((data) => setEtatCivilCodes(data.map((c: any) => c.code)));
+  }, []);
+  let ninCode = "";
+  if (nin.length >= 4) {
+    ninCode = nin.substring(1, 4); // caractères 2, 3, 4 (après le 1 ou 2)
+  }
+  const isValidEtatCivilCode = ninCode && etatCivilCodes.includes(ninCode);
 
   // Soumission moderne: on controle la requete en JavaScript.
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
@@ -71,6 +85,17 @@ export function TrackingForm() {
     setIsLoading(true);
     // On efface une ancienne erreur avant une nouvelle tentative.
     setErrorMessage(null);
+
+    if (!isValidNin) {
+      setErrorMessage("Le NIN saisi n'est pas valide. Vérifie le format : 1 ou 2, une lettre, puis 11 chiffres.");
+      setIsLoading(false);
+      return;
+    }
+    if (!isValidEtatCivilCode) {
+      setErrorMessage("Le code d'état civil (" + ninCode + ") n'est pas reconnu. Merci de vérifier votre saisie.");
+      setIsLoading(false);
+      return;
+    }
 
     try {
       // Appel HTTP vers notre route interne Next.js.
@@ -90,7 +115,7 @@ export function TrackingForm() {
           return;
         }
         // 400 = format invalide côté serveur (ne devrait pas arriver car le bouton est désactivé)
-        // On ne montre pas d'erreur rouge pour ça.
+        setErrorMessage("Le NIN envoyé n'est pas reconnu. Vérifie le format et réessaie.");
         return;
       }
 
@@ -143,7 +168,7 @@ export function TrackingForm() {
         <span>Format attendu : 13 caractères (1/2 + lettre + 11 chiffres)</span>
       </p>
 
-      <button type="submit" disabled={!isValidNin || isLoading} className="tracking-form-card__submit">
+      <button type="submit" disabled={isLoading} className="tracking-form-card__submit">
         <span>{isLoading ? "Vérification..." : "Consulter le statut de ma demande"}</span>
         <ArrowRightIcon />
       </button>
