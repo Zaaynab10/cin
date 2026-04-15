@@ -97,9 +97,10 @@ function validateAll(f: Fields, consent: boolean): Errs {
 type Props = {
   initialData?: PersonalInfoData;
   onNext: (data: PersonalInfoData) => void;
+  appointmentType?: string;
 };
 
-export function PersonalInfoStep({ initialData, onNext }: Props) {
+export function PersonalInfoStep({ initialData, onNext, appointmentType }: Props) {
   const [nom,     setNom]     = useState(initialData?.nom     ?? "");
   const [prenom,  setPrenom]  = useState(initialData?.prenom  ?? "");
   const [nin,     setNin]     = useState(initialData?.nin     ?? "");

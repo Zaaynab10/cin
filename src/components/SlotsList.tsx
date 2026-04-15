@@ -1,19 +1,34 @@
+
 import React, { useEffect, useState } from "react";
 import { apiClient } from "../lib/api/client";
 
-export default function SlotsList({ type, date }) {
-  const [slots, setSlots] = useState([]);
+type Slot = {
+  id: string;
+  type: string;
+  date: string;
+  startAt: string;
+  endAt: string;
+  available: boolean;
+};
+
+type SlotsListProps = {
+  type: string;
+  date: string;
+};
+
+export default function SlotsList({ type, date }: SlotsListProps) {
+  const [slots, setSlots] = useState<Slot[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     setLoading(true);
     apiClient(`/appointments/slots?type=${type}&date=${date}`)
       .then((data) => {
-        setSlots(data.slots || []);
+        setSlots((data.slots as Slot[]) || []);
         setLoading(false);
       })
-      .catch((err) => {
+      .catch(() => {
         setError("Erreur lors du chargement des créneaux");
         setLoading(false);
       });
