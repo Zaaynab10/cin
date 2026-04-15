@@ -36,7 +36,7 @@ lint:
       - node_modules/
     policy: pull-push
   script:
-    - cd $(pwd)
+    - cd cin
     - npm ci
     - npm run lint
   rules:
