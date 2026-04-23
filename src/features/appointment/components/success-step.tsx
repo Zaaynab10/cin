@@ -153,7 +153,8 @@ function IconHome({ className }: SvgProps) {
 // ─── Component ────────────────────────────────────────────────────────────────
 
 type SuccessStepProps = {
-	token: string;
+token: string;
+_token?: string;
 	personalInfo?: PersonalInfoData;
 	scheduleData?: ScheduleData;
 	appointmentType?: string;
