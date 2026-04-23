@@ -518,7 +518,6 @@ img {
 }
 
 /* ── Icône ────────────────────────────────────────────────────────────────── */
-/* biome-ignore lint/style/noDescendingSpecificity: structure responsive volontaire */
 .rs__icon-wrap {
 	width: 56px;
 	height: 56px;
@@ -2085,11 +2084,7 @@ img {
 /* Available → vert plein */
 /* TEST: fond rouge vif pour debug */
 .sch-cal__day--available {
-	background: color-mix(
-		in srgb,
-		var(--color-brand-green) 30%,
-		white
-	);
+	background: color-mix(in srgb, var(--color-brand-green) 30%, white);
 	color: var(--color-brand-green);
 	border: 2px solid color-mix(in srgb, var(--color-brand-green) 30%, white);
 	font-weight: 700;

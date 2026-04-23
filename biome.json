@@ -16,8 +16,15 @@
 		"enabled": true,
 		"rules": {
 			"recommended": true,
-			"style/noDescendingSpecificity": "off",
-			"complexity/noUselessFragments": "off"
+			"suspicious": {
+				"noArrayIndexKey": "off"
+			},
+			"style": {
+				"noDescendingSpecificity": "off"
+			},
+			"complexity": {
+				"noUselessFragments": "off"
+			}
 		}
 	},
 	"javascript": {

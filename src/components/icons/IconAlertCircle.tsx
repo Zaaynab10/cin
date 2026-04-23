@@ -1,4 +1,3 @@
-
 export function IconAlertCircle({ className }: { className?: string }) {
 	return (
 		<svg

@@ -1,4 +1,3 @@
-
 export function IconHome({ className }: { className?: string }) {
 	return (
 		<svg

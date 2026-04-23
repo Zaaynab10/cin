@@ -73,7 +73,7 @@ function errNin(v: string) {
 	if (!NIN_RE.test(normalized))
 		return "Format invalide. Ex : 1075202301234 ou 1A75202301234";
 	// Vérification de l'année
-	const year = parseInt(normalized.slice(4, 8));
+	const year = parseInt(normalized.slice(4, 8), 10); // Correction ici : ajout du radix 10
 	const currentYear = new Date().getFullYear();
 	if (year < 1900 || year > currentYear) {
 		return "Année invalide.";
@@ -81,7 +81,7 @@ function errNin(v: string) {
 	// Vérification du code département (3 chiffres après le 1er caractère)
 	const deptCode = normalized.slice(1, 4);
 	const validCodes = Array.isArray(etatCivilData)
-		? etatCivilData.map((item: any) =>
+		? etatCivilData.map((item: { code: string }) =>
 				String(item.code).padStart(3, "0").toUpperCase(),
 			)
 		: [];
@@ -133,7 +133,7 @@ type Props = {
 export function PersonalInfoStep({
 	initialData,
 	onNext,
-	appointmentType,
+	// appointmentType, // <- non utilisé, tu peux le supprimer ou préfixer par _
 }: Props) {
 	const [nom, setNom] = useState(initialData?.nom ?? "");
 	const [prenom, setPrenom] = useState(initialData?.prenom ?? "");

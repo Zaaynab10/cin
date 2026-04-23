@@ -186,36 +186,22 @@ export function ScheduleStep({
 	const [daysLoading, setDaysLoading] = useState(false);
 	const [errors, setErrors] = useState<ScheduleErrs>({});
 	const [submitted, setSubmitted] = useState(false);
-	// Pour l’erreur de chargement des créneaux
 	const [slotsError, setSlotsError] = useState<string | null>(null);
 
 	// Load available days whenever month/year/type changes
 	useEffect(() => {
 		if (!appointmentType) return;
-		console.log("DEBUG fetchAvailableDays params", {
-			appointmentType,
-			viewYear,
-			viewMonth: viewMonth + 1,
-		});
 		let cancelled = false;
 		setDaysLoading(true);
 		setAvailableDays(new Set());
 		fetchAvailableDays(appointmentType, viewYear, viewMonth + 1)
 			.then((res) => {
-				console.log("DEBUG fetchAvailableDays response", res);
 				if (!cancelled) {
-					// Ajout du log détaillé
-					if (!res || !Array.isArray(res.days) || res.days.length === 0) {
-						console.warn("Aucun jour disponible reçu :", res);
-					} else {
-						console.info("Jours disponibles reçus :", res.days);
-					}
 					const days = (res as { days?: number[] }).days ?? [];
 					setAvailableDays(new Set(days));
 				}
 			})
-			.catch((err) => {
-				console.log("DEBUG fetchAvailableDays error", err);
+			.catch(() => {
 				if (!cancelled) setAvailableDays(new Set());
 			})
 			.finally(() => {
@@ -363,13 +349,10 @@ export function ScheduleStep({
 		}
 	}
 
-	// DEBUG: Affiche les jours disponibles dans la console navigateur
-	console.log("availableDays", Array.from(availableDays));
-
 	return (
 		<section className="apf-section">
 			<div className="apf-section__header">
-				<h2 className="apf-section__heading">Date &amp; heure</h2>
+				<h2 className="apf-section__heading">Date & heure</h2>
 				<div className="apf-section__bar" />
 			</div>
 
@@ -385,7 +368,7 @@ export function ScheduleStep({
 						<IconChevronLeft className="sch-nav__arrow-icon" />
 					</button>
 					<span className="sch-nav__headline">
-						{MONTH_NAMES_FR[viewMonth]} {viewYear}
+						{MONTH_NAMES_FR[viewMonth]} {viewYear}
 					</span>
 					<button
 						type="button"
@@ -413,28 +396,31 @@ export function ScheduleStep({
 
 			<div className="sch-cal">
 				<div className="sch-cal__dow-row">
-					{DAY_LABELS.map((l, i) => (
-						<span key={i} className="sch-cal__dow">
+					{DAY_LABELS.map((l, _i) => (
+						<span key={l} className="sch-cal__dow">
 							{l}
 						</span>
 					))}
 				</div>
-				{daysLoading ? (
+				   {daysLoading ? (
+					   <div className="sch-cal__grid">
+						   {Array.from({ length: cells.length }).map((_, i) => (
+							   <span
+								   key={String(i)}
+								   className="sch-cal__day sch-cal__day--skeleton"
+								   aria-hidden="true"
+							   />
+						   ))}
+					   </div>
+				   ) : (
 					<div className="sch-cal__grid">
-						{Array.from({ length: 35 }).map((_, i) => (
-							<span
-								key={i}
-								className="sch-cal__day sch-cal__day--skeleton"
-								aria-hidden="true"
-							/>
-						))}
-					</div>
-				) : (
-					<div className="sch-cal__grid">
-						{cells.map((cell, i) => {
+						{cells.map((cell, _i) => {
 							if (cell.month !== "curr") {
 								return (
-									<span key={i} className="sch-cal__day sch-cal__day--other">
+									<span
+										key={`${cell.month}-${cell.day}`}
+										className="sch-cal__day sch-cal__day--other"
+									>
 										{cell.day}
 									</span>
 								);
@@ -450,7 +436,7 @@ export function ScheduleStep({
 							else cls += " sch-cal__day--no-slots";
 							return (
 								<button
-									key={i}
+									key={cell.day}
 									type="button"
 									className={cls}
 									onClick={() => selectDate(cell.day)}
@@ -471,8 +457,7 @@ export function ScheduleStep({
 					Créneaux disponibles
 					{selectedDate && (
 						<span className="sch-slots__date">
-							{" "}
-							&mdash; {selectedDate} {MONTH_NAMES_FR[viewMonth]}
+							" " — {selectedDate} {MONTH_NAMES_FR[viewMonth]}
 						</span>
 					)}
 				</p>
@@ -525,7 +510,7 @@ export function ScheduleStep({
 				)}
 				<div className="sch-slots__notice">
 					<IconInfo className="sch-slots__notice-icon" />
-					<span>Les rendez-vous sont confirmés par e-mail sous 48&nbsp;h.</span>
+					<span>Les rendez-vous sont confirmés par e-mail sous 48 h.</span>
 				</div>
 			</div>
 
@@ -541,26 +526,27 @@ export function ScheduleStep({
 					disabled={!canContinue}
 					onClick={() => {
 						setSubmitted(true);
-						const fields: ScheduleFields = {
+						const errs = validateAll({
 							date: selectedDate,
 							slot: selectedSlot,
-						};
-						const errs = validateAll(fields);
+						});
 						setErrors(errs);
 						if (Object.values(errs).some(Boolean)) return;
-						onNext({
-							day: selectedDate!,
-							month: viewMonth,
-							year: viewYear,
-							slotId: selectedSlot!,
-							slotLabel: selectedSlotLabel!,
-						});
+						selectedDate &&
+							selectedSlot &&
+							selectedSlotLabel &&
+							onNext({
+								day: selectedDate,
+								month: viewMonth,
+								year: viewYear,
+								slotId: selectedSlot,
+								slotLabel: selectedSlotLabel,
+							});
 					}}
 				>
 					Continuer
 					<IconArrowRight className="apf-submit__icon" />
 				</button>
-				{/* Affichage des erreurs sous le bouton */}
 				{errors.date && submitted && (
 					<p className="apf-field__error" role="alert">
 						{errors.date}

@@ -1,4 +1,3 @@
-
 export function IconRotateCcw({ className }: { className?: string }) {
 	return (
 		<svg

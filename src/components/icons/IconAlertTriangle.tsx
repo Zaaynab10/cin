@@ -1,4 +1,3 @@
-
 export function IconAlertTriangle({ className }: { className?: string }) {
 	return (
 		<svg

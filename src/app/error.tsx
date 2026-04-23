@@ -41,7 +41,11 @@ export default function GlobalError({ reset }: Props) {
 					</p>
 				</div>
 				<div className="ep__actions">
-					 <button type="button" className="ep__cta ep__cta--error" onClick={handleReload}>
+					<button
+						type="button"
+						className="ep__cta ep__cta--error"
+						onClick={handleReload}
+					>
 						<IconRotateCcw className="ep__cta-icon" /> Réessayer
 					</button>
 					<Link className="ep__secondary" href="/">

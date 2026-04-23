@@ -104,7 +104,9 @@ export function TrackingForm() {
 	useEffect(() => {
 		fetch("/api/etat-civil-codes")
 			.then((res) => res.json())
-			.then((data) => setEtatCivilCodes(data.map((c: any) => c.code)));
+			.then((data) =>
+				setEtatCivilCodes(data.map((c: { code: string }) => c.code)),
+			);
 	}, []);
 	let ninCode = "";
 	if (nin.length >= 4) {

@@ -1,4 +1,3 @@
-
 export function IconSearch({ className }: { className?: string }) {
 	return (
 		<svg

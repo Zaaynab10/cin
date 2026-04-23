@@ -242,7 +242,7 @@ function IconShield({ className }: SvgProps) {
 function ReadyState() {
 	return (
 		<div className="rs-page rs-page--ready" role="status">
-			{/* Zone 1 hero coloré */}
+			{/* Zone 1 — hero coloré */}
 			<div className="rs__hero">
 				<div className="rs__icon-wrap">
 					<IconCheck className="rs__icon" />
@@ -252,7 +252,7 @@ function ReadyState() {
 					Présentez-vous au guichet du Consulat Général du Sénégal à Paris.
 				</p>
 			</div>
-			{/* Zone 2 carte blanche */}
+			{/* Zone 2 — carte blanche */}
 			<div className="rs__body">
 				<ul className="rs__info-list">
 					<li className="rs__info-item">
@@ -297,7 +297,7 @@ function ReadyState() {
 function PendingState() {
 	return (
 		<div className="rs-page rs-page--pending" role="status">
-			{/* Zone 1 hero coloré */}
+			{/* Zone 1 — hero coloré */}
 			<div className="rs__hero">
 				<div className="rs__icon-wrap">
 					<IconHourglass className="rs__icon" />
@@ -307,7 +307,7 @@ function PendingState() {
 					Votre demande est traitée par les services compétents.
 				</p>
 			</div>
-			{/* Zone 2 carte blanche */}
+			{/* Zone 2 — carte blanche */}
 			<div className="rs__body">
 				<ul className="rs__info-list">
 					<li className="rs__info-item">
@@ -359,7 +359,7 @@ function PendingState() {
 function NotFoundState() {
 	return (
 		<div className="rs-page rs-page--error" role="alert">
-			{/* Zone 1 hero coloré */}
+			{/* Zone 1 — hero coloré */}
 			<div className="rs__hero">
 				<div className="rs__icon-wrap">
 					<IconXCircle className="rs__icon" />
@@ -369,7 +369,7 @@ function NotFoundState() {
 					Aucun dossier ne correspond au numéro saisi. Vérifiez votre saisie.
 				</p>
 			</div>
-			{/* Zone 2 carte blanche */}
+			{/* Zone 2 — carte blanche */}
 			<div className="rs__body">
 				<ul className="rs__info-list">
 					<li className="rs__info-item">
@@ -425,7 +425,7 @@ function NotFoundState() {
 function BlockedState() {
 	return (
 		<div className="rs-page rs-page--error" role="alert">
-			{/* Zone 1 hero coloré */}
+			{/* Zone 1 — hero coloré */}
 			<div className="rs__hero">
 				<div className="rs__icon-wrap">
 					<IconShield className="rs__icon" />
@@ -435,7 +435,7 @@ function BlockedState() {
 					Contactez le consulat pour régulariser votre situation.
 				</p>
 			</div>
-			{/* Zone 2 carte blanche */}
+			{/* Zone 2 — carte blanche */}
 			<div className="rs__body">
 				<ul className="rs__info-list">
 					<li className="rs__info-item">
@@ -489,7 +489,7 @@ function BlockedState() {
 function RateLimitedState() {
 	return (
 		<div className="rs-page rs-page--neutral" role="alert">
-			{/* Zone 1 hero coloré */}
+			{/* Zone 1 — hero coloré */}
 			<div className="rs__hero">
 				<div className="rs__icon-wrap">
 					<IconClock className="rs__icon" />
@@ -500,7 +500,7 @@ function RateLimitedState() {
 					limité.
 				</p>
 			</div>
-			{/* Zone 2 carte blanche */}
+			{/* Zone 2 — carte blanche */}
 			<div className="rs__body">
 				<div className="rs__notice rs__notice--orange">
 					<IconAlertTriangle className="rs__notice-icon rs__notice-icon--orange" />

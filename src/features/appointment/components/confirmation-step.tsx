@@ -91,7 +91,8 @@ function IconArrowRight({ className }: SvgProps) {
 	);
 }
 
-function IconAlertCircle({ className }: SvgProps) {
+// Fonction non utilisée, préfixée par _
+function _IconAlertCircle({ className }: SvgProps) {
 	return (
 		<svg
 			className={className}
@@ -129,7 +130,7 @@ export function ConfirmationStep({
 }: ConfirmationStepProps) {
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState<string | null>(null);
-	const [existingToken, setExistingToken] = useState<string | null>(null);
+	const [_existingToken, setExistingToken] = useState<string | null>(null);
 	const errorRef = useRef<HTMLDivElement>(null);
 	useEffect(() => {
 		if (error && errorRef.current) {
@@ -172,7 +173,7 @@ export function ConfirmationStep({
 		? new Date(scheduleData.year, scheduleData.month, scheduleData.day)
 		: null;
 	const dateLabel = d
-		? `${DAY_NAMES_FR[d.getDay()]} ${scheduleData!.day} ${MONTH_NAMES_FR[scheduleData!.month]} ${scheduleData!.year}`
+		? `${DAY_NAMES_FR[d.getDay()]} ${scheduleData?.day} ${MONTH_NAMES_FR[scheduleData?.month]} ${scheduleData?.year}`
 		: "";
 	const typeLabel = appointmentType
 		? (TYPE_LABELS[appointmentType] ?? appointmentType)

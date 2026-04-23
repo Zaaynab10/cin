@@ -1,4 +1,3 @@
-
 export function IconArrowRight({ className }: { className?: string }) {
 	return (
 		<svg

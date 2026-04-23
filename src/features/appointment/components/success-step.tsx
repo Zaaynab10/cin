@@ -161,7 +161,7 @@ type SuccessStepProps = {
 };
 
 export function SuccessStep({
-	token,
+	_token,
 	personalInfo,
 	scheduleData,
 	appointmentType,
@@ -171,8 +171,9 @@ export function SuccessStep({
 		? new Date(scheduleData.year, scheduleData.month, scheduleData.day)
 		: null;
 	const dateLabel = d
-		? `${DAY_NAMES_FR[d.getDay()]} ${scheduleData!.day} ${MONTH_NAMES_FR[scheduleData!.month]} ${scheduleData!.year}`
+		? `${DAY_NAMES_FR[d.getDay()]} ${scheduleData?.day ?? ""} ${MONTH_NAMES_FR[scheduleData?.month ?? 0]} ${scheduleData?.year ?? 0}`
 		: "";
+
 	const timeLabel = scheduleData?.slotLabel ?? "";
 	const typeLabel = appointmentType
 		? (TYPE_LABELS[appointmentType] ?? appointmentType)

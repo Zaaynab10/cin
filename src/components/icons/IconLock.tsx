@@ -1,4 +1,3 @@
-
 export function IconLock({ className }: { className?: string }) {
 	return (
 		<svg

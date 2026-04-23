@@ -114,7 +114,7 @@ const APPOINTMENT_TYPES = [
 export function AppointmentTypeSelector() {
 	return (
 		<div className="apt-page">
-			{/* Zone 1 Hero photo plein écran */}
+			{/* Zone 1 — Hero photo plein écran */}
 			<section className="apt-hero" aria-labelledby="apt-hero-title">
 				<div className="apt-hero__media" aria-hidden="true" />
 				<div className="apt-hero__overlay" aria-hidden="true" />
@@ -131,7 +131,7 @@ export function AppointmentTypeSelector() {
 				</div>
 			</section>
 
-			{/* Zone 2 Question : quelle démarche ? */}
+			{/* Zone 2 — Question : quelle démarche ? */}
 			<section
 				className="apt-zone apt-zone--question"
 				aria-labelledby="apt-zone-title"
@@ -148,7 +148,7 @@ export function AppointmentTypeSelector() {
 				</div>
 			</section>
 
-			{/* Zone 3 Choix de démarches */}
+			{/* Zone 3 — Choix de démarches */}
 			<section
 				className="apt-zone apt-zone--choices"
 				aria-label="Choix de démarche"
@@ -158,26 +158,26 @@ export function AppointmentTypeSelector() {
 						{APPOINTMENT_TYPES.map(
 							({ value, Icon, label, description, badge }) => (
 								<li key={value} className="apt-row">
-									<div className="apt-row__icon-wrap">
-										<Icon className="apt-row__icon" />
-									</div>
-									<div className="apt-row__content">
-										<div className="apt-row__top">
-											<h3 className="apt-row__title">{label}</h3>
-											<span className="apt-row__badge">
-												<IconClock className="apt-row__badge-icon" />
-												{badge}
-											</span>
-										</div>
-										<p className="apt-row__desc">{description}</p>
-									</div>
-									<Link
-										href={`/appointment/form?type=${value}`}
-										className="apt-row__cta"
-									>
-										Choisir
-										<IconArrowRight className="apt-row__cta-icon" />
-									</Link>
+								   <div className="apt-row__icon-wrap">
+									   <Icon className="apt-row__icon" />
+								   </div>
+								   <div className="apt-row__content">
+									   <div className="apt-row__top">
+										   <h3 className="apt-row__title">{label}</h3>
+										   <span className="apt-row__badge">
+											   <IconClock className="apt-row__badge-icon" />
+											   {badge}
+										   </span>
+									   </div>
+									   <p className="apt-row__desc">{description}</p>
+								   </div>
+								   <Link
+									   href={`/appointment/form?type=${value}`}
+									   className="apt-row__cta"
+								   >
+									   Choisir
+									   <IconArrowRight className="apt-row__cta-icon" />
+								   </Link>
 								</li>
 							),
 						)}
