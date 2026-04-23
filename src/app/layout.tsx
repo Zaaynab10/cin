@@ -10,21 +10,21 @@ import { SiteHeader } from "../components/layout/site-header";
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
 export const metadata: Metadata = {
-  title: "CIN Frontend",
-  description: "Consulate CIN and appointment frontend"
+	title: "CIN Frontend",
+	description: "Consulate CIN and appointment frontend",
 };
 
 type RootLayoutProps = {
-  children: ReactNode;
+	children: ReactNode;
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  return (
-    <html lang="fr" className={inter.variable}>
-      <body>
-        <SiteHeader />
-        <main>{children}</main>
-      </body>
-    </html>
-  );
+	return (
+		<html lang="fr" className={inter.variable}>
+			<body>
+				<SiteHeader />
+				<main>{children}</main>
+			</body>
+		</html>
+	);
 }

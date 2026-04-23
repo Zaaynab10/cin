@@ -2,5 +2,5 @@
 import type { TrackingResult } from "../types/tracking.types";
 
 export function mapTrackingResult(input: TrackingResult): TrackingResult {
-  return input;
+	return input;
 }

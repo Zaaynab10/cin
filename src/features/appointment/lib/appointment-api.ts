@@ -3,28 +3,41 @@ import { apiClient } from "../../../lib/api/client";
 import type { AppointmentInput } from "../schemas/appointment.schema";
 
 export async function fetchSlots(type: string, date: string) {
-  return apiClient(`/appointments/slots?type=${encodeURIComponent(type)}&date=${encodeURIComponent(date)}`);
+	return apiClient(
+		`/appointments/slots?type=${encodeURIComponent(type)}&date=${encodeURIComponent(date)}`,
+	);
 }
 
-export async function fetchAvailableDays(type: string, year: number, month: number) {
-  return apiClient(`/appointments/available-days?type=${encodeURIComponent(type)}&year=${year}&month=${month}`);
+export async function fetchAvailableDays(
+	type: string,
+	year: number,
+	month: number,
+) {
+	return apiClient(
+		`/appointments/available-days?type=${encodeURIComponent(type)}&year=${year}&month=${month}`,
+	);
 }
 
 export async function createAppointment(payload: AppointmentInput) {
-  return apiClient("/appointments", { method: "POST", body: JSON.stringify(payload) });
+	return apiClient("/appointments", {
+		method: "POST",
+		body: JSON.stringify(payload),
+	});
 }
 
 export async function getAppointment(token: string) {
-  return apiClient(`/appointments?token=${encodeURIComponent(token)}`);
+	return apiClient(`/appointments?token=${encodeURIComponent(token)}`);
 }
 
 export async function updateAppointment(token: string, slotId: string) {
-  return apiClient(`/appointments?token=${encodeURIComponent(token)}`, {
-    method: "PATCH",
-    body: JSON.stringify({ slotId })
-  });
+	return apiClient(`/appointments?token=${encodeURIComponent(token)}`, {
+		method: "PATCH",
+		body: JSON.stringify({ slotId }),
+	});
 }
 
 export async function cancelAppointment(token: string) {
-  return apiClient(`/appointments?token=${encodeURIComponent(token)}`, { method: "DELETE" });
+	return apiClient(`/appointments?token=${encodeURIComponent(token)}`, {
+		method: "DELETE",
+	});
 }
