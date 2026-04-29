@@ -1,9 +1,17 @@
 // Fonctions de validation extraites du composant personal-info-step
 
+import etatCivilData from "../../../../etat_civil_senegal.json";
+
 const NAME_RE = /^[a-zA-ZÀ-ÿ' ]+$/;
 const EMAIL_RE = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
 const DIGITS_RE = /^\d+$/;
-const NIN_RE = /^[12][A-Z]\d{11}$/;
+const NIN_RE = /^[12](\d{3}|[A-Z]\d{2})\d{4}\d{5}$/;
+
+const validDeptCodes = Array.isArray(etatCivilData)
+	? etatCivilData.map((item: { code: string }) =>
+			String(item.code).padStart(3, "0").toUpperCase(),
+		)
+	: [];
 
 export function errNom(v: string) {
 	if (!v.trim()) return "Le nom est obligatoire.";
@@ -19,7 +27,20 @@ export function errNin(v: string) {
 	const normalized = v.trim().toUpperCase().replace(/\s/g, "");
 	if (!normalized) return "Le NIN est obligatoire.";
 	if (!NIN_RE.test(normalized))
-		return "Format invalide. Ex : 1G01198500654 (1 chiffre, 1 lettre, 11 chiffres).";
+		return "Format invalide. Ex : 1075202301234 ou 1A75202301234";
+
+	// Vérification de l'année
+	const year = parseInt(normalized.slice(4, 8), 10);
+	const currentYear = new Date().getFullYear();
+	if (year < 1900 || year > currentYear) {
+		return "Année invalide.";
+	}
+
+	// Vérification du code département (3 caractères après le 1er)
+	const deptCode = normalized.slice(1, 4);
+	if (!validDeptCodes.includes(deptCode)) {
+		return `Code département invalide (${deptCode}).`;
+	}
 }
 export function errEmail(v: string) {
 	if (!v.trim()) return "L'adresse email est obligatoire.";
