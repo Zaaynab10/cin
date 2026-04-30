@@ -85,7 +85,7 @@ function ArrowRightIcon() {
 }
 
 // NIN format: [1|2][A-Z][0-9]{11} = 13 chars
-const NIN_REGEX = /^[12][A-Z]\d{11}$/;
+const NIN_REGEX = /^[12](\d{3}|[A-Z]\d{2})\d{4}\d{5}$/;
 
 // Composant React responsable de la saisie du NIN et de l'envoi de la requete.
 export function TrackingForm() {
@@ -105,7 +105,7 @@ export function TrackingForm() {
 		fetch("/api/etat-civil-codes")
 			.then((res) => res.json())
 			.then((data) =>
-				setEtatCivilCodes(data.map((c: { code: string }) => c.code)),
+				setEtatCivilCodes(data.map((c: { code: string }) => String(c.code).padStart(3, "0").toUpperCase())),
 			);
 	}, []);
 	let ninCode = "";
