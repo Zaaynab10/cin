@@ -106,13 +106,11 @@ export function TrackingForm() {
 			.then((res) => res.json())
 			.then((data) =>
 				setEtatCivilCodes(data.map((c: { code: string }) => String(c.code).padStart(3, "0").toUpperCase())),
-			);
+			)
+			.catch(() => setEtatCivilCodes([]));
 	}, []);
-	let ninCode = "";
-	if (nin.length >= 4) {
-		ninCode = nin.substring(1, 4); // caractères 2, 3, 4 (après le 1 ou 2)
-	}
-	const isValidEtatCivilCode = ninCode && etatCivilCodes.includes(ninCode);
+	const ninCode = nin.length >= 4 ? nin.substring(1, 4).trim().toUpperCase() : "";
+	const isValidEtatCivilCode = etatCivilCodes.length === 0 || (ninCode !== "" && etatCivilCodes.includes(ninCode));
 
 	// Soumission moderne: on controle la requete en JavaScript.
 	async function handleSubmit(event: FormEvent<HTMLFormElement>) {
