@@ -2,9 +2,5 @@
 import { TrackingHero } from "../features/tracking/components/tracking-hero";
 
 export default function HomePage() {
-	return (
-		<main className="container-page">
-			<TrackingHero />
-		</main>
-	);
+	return <TrackingHero />;
 }

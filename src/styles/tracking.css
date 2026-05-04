@@ -11,17 +11,16 @@
 /* ── Hero ─────────────────────────────────────────────────────────────────────── */
 .tracking-hero {
 	position: relative;
+	flex: 1;
 	min-height: var(--hero-height-mobile);
-	border-radius: 20px;
-	overflow: clip;
+	overflow: hidden;
 	display: flex;
-	align-items: flex-end;
-	box-shadow: 0 16px 32px rgba(0, 0, 0, 0.18);
+	align-items: center;
 }
 
 .tracking-hero__media {
 	position: absolute;
-	inset: -42px -20px 0;
+	inset: 0;
 	background:
 		var(--hero-image-url) center / cover no-repeat,
 		radial-gradient(circle at 18% 12%, rgba(252, 187, 0, 0.55), transparent 42%),
@@ -43,10 +42,12 @@
 	position: relative;
 	z-index: 1;
 	width: 100%;
-	padding: 20px 16px;
+	max-width: 640px;
+	margin-inline: auto;
+	padding: 48px 20px;
 	display: grid;
-	gap: 14px;
-	align-content: end;
+	gap: 20px;
+	align-content: center;
 	justify-items: center;
 }
 
@@ -136,7 +137,7 @@
 	border: 2px solid var(--color-field-border);
 	border-radius: var(--radius-field-pill);
 	background: var(--color-white);
-	padding: 12px 14px 12px 36px;
+	padding: 12px 14px 12px 44px;
 	font: inherit;
 	font-size: 0.82rem;
 	color: var(--color-text);
@@ -219,16 +220,11 @@
 }
 
 @media (min-width: 768px) {
-	.tracking-hero {
-		min-height: var(--hero-height-desktop);
-	}
-
 	.tracking-hero__content {
 		grid-template-columns: 1fr;
-		gap: 20px;
-		padding: 28px;
-		max-width: 840px;
-		margin-inline: auto;
+		gap: 24px;
+		padding: 60px 40px;
+		max-width: 720px;
 	}
 
 	.tracking-hero__title {
@@ -276,7 +272,7 @@
 	}
 
 	.tracking-form-card__field {
-		padding: 12px;
+		padding: 12px 12px 12px 44px;
 		min-height: 44px;
 	}
 
