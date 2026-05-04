@@ -24,6 +24,7 @@ body {
 	font-family: var(--font-sans), system-ui, sans-serif;
 	background: var(--color-bg);
 	color: var(--color-text);
+	overscroll-behavior-y: contain;
 	display: flex;
 	flex-direction: column;
 }
@@ -201,16 +202,19 @@ img {
 
 .tracking-form-card__help {
 	margin: 0;
-	display: inline-flex;
-	align-items: center;
+	display: flex;
+	align-items: flex-start;
 	gap: 6px;
 	color: var(--color-help);
 	font-size: 0.68rem;
+	line-height: 1.5;
 }
 
 .tracking-form__help-icon {
 	width: 0.84rem;
 	height: 0.84rem;
+	flex-shrink: 0;
+	margin-top: 2px;
 	color: var(--color-brand-green);
 }
 
@@ -1394,9 +1398,24 @@ img {
 		padding: 0 16px;
 	}
 
+	.apt-zone--question {
+		padding: 20px 0 12px;
+	}
+
 	.apt-row {
-		flex-wrap: wrap;
-		gap: 14px;
+		flex-direction: column;
+		align-items: center;
+		text-align: center;
+		gap: 12px;
+		padding: 20px 16px;
+	}
+
+	.apt-row__top {
+		justify-content: center;
+	}
+
+	.apt-row__content {
+		align-items: center;
 	}
 
 	.apt-row__cta {

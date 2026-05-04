@@ -191,6 +191,7 @@ export function PersonalInfoStep({
 						value={nom}
 						placeholder="Votre nom de famille"
 						autoComplete="family-name"
+						enterKeyHint="next"
 						onChange={(e) => {
 							setNom(e.target.value);
 							revalidate({ nom: e.target.value });
@@ -222,6 +223,7 @@ export function PersonalInfoStep({
 						value={prenom}
 						placeholder="Votre prénom"
 						autoComplete="given-name"
+						enterKeyHint="next"
 						onChange={(e) => {
 							setPrenom(e.target.value);
 							revalidate({ prenom: e.target.value });
@@ -254,7 +256,11 @@ export function PersonalInfoStep({
 						value={nin}
 						placeholder="1G01198500654"
 						autoComplete="off"
+						autoCapitalize="characters"
+						autoCorrect="off"
+						spellCheck={false}
 						maxLength={13}
+						enterKeyHint="next"
 						style={{ textTransform: "uppercase" }}
 						onChange={(e) => {
 							const v = e.target.value.toUpperCase();
@@ -289,6 +295,8 @@ export function PersonalInfoStep({
 						value={email}
 						placeholder="exemple@domaine.fr"
 						autoComplete="email"
+						enterKeyHint="next"
+						inputMode="email"
 						onChange={(e) => {
 							setEmail(e.target.value);
 							revalidate({ email: e.target.value });
@@ -320,6 +328,8 @@ export function PersonalInfoStep({
 						value={tel}
 						placeholder="+33 6 12 34 56 78"
 						autoComplete="tel"
+						enterKeyHint="done"
+						inputMode="tel"
 						onChange={(e) => {
 							setTel(e.target.value);
 							revalidate({ tel: e.target.value });

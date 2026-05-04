@@ -1,7 +1,7 @@
 ﻿// Expected: Orchestrate the full multi-step form and render each step component.
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { ConfirmationStep } from "./confirmation-step";
 import { PersonalInfoStep } from "./personal-info-step";
 import { RequiredDocumentsStep } from "./required-documents-step";
@@ -33,6 +33,11 @@ export function AppointmentFormShell({
 	initialType,
 }: AppointmentFormShellProps) {
 	const { step, next, previous } = useAppointmentForm();
+
+	useEffect(() => {
+		window.scrollTo({ top: 0, behavior: "smooth" });
+	}, [step]);
+
 	const [personalInfo, setPersonalInfo] = useState<
 		PersonalInfoData | undefined
 	>(undefined);
