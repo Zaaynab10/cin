@@ -2837,3 +2837,122 @@ img {
 	box-shadow: 0 8px 20px -6px
 		color-mix(in srgb, var(--color-status-error) 50%, transparent);
 }
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Responsive — XS (≤ 480px)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 480px) {
+	/* Container */
+	.container-page {
+		padding: 16px 12px;
+	}
+
+	/* Header — masque le sous-titre sur très petit écran */
+	.site-header__title {
+		display: none;
+	}
+
+	.site-header__eyebrow {
+		font-size: 0.72rem;
+	}
+
+	/* CTA — icône uniquement sous 480px */
+	.site-header__cta span {
+		display: none;
+	}
+
+	.site-header__cta {
+		padding: 8px 10px;
+	}
+
+	.site-header__cta-icon {
+		width: 1.15rem;
+		height: 1.15rem;
+	}
+
+	/* Calendrier — cellules plus compactes */
+	.sch-cal {
+		padding: 12px 10px;
+	}
+
+	.sch-cal__dow {
+		font-size: 0.6rem;
+		padding: 2px 0;
+	}
+
+	.sch-nav__arrow {
+		width: 32px;
+		height: 32px;
+		min-height: 44px;
+	}
+
+	.sch-nav__headline {
+		font-size: 0.9rem;
+	}
+
+	/* Formulaires — taille touch-friendly */
+	.apf-field__input {
+		padding: 12px;
+		min-height: 44px;
+		font-size: 0.875rem;
+	}
+
+	.apf-fields {
+		gap: 14px;
+	}
+
+	.apf-submit {
+		min-height: 48px;
+		font-size: 0.875rem;
+	}
+
+	/* Tracking form */
+	.tracking-form-card {
+		padding: 16px 14px;
+	}
+
+	.tracking-form-card__field {
+		padding: 12px;
+		min-height: 44px;
+	}
+
+	.tracking-form-card__submit {
+		min-height: 48px;
+	}
+
+	/* Créneaux horaires — pleine largeur */
+	.rdv-slot {
+		width: 100%;
+		min-height: 44px;
+	}
+
+	/* Boutons actions — pleine largeur */
+	.apf-actions {
+		flex-direction: column;
+	}
+
+	.apf-back,
+	.apf-submit {
+		width: 100%;
+		justify-content: center;
+	}
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════════
+   Responsive — très petits écrans (≤ 360px)
+   ═══════════════════════════════════════════════════════════════════════════════ */
+
+@media (max-width: 360px) {
+	.site-header__eyebrow {
+		font-size: 0.65rem;
+	}
+
+	.sch-cal__dow {
+		font-size: 0.52rem;
+	}
+
+	.tracking-form-card {
+		padding: 14px 10px;
+	}
+}

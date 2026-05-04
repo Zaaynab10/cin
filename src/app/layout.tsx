@@ -1,7 +1,7 @@
 // Expected: Root layout shared by all pages. Keep global styles and app shell only.
 import "../styles/globals.css";
 
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import type { ReactNode } from "react";
 
@@ -12,6 +12,11 @@ const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 export const metadata: Metadata = {
 	title: "CIN Frontend",
 	description: "Consulate CIN and appointment frontend",
+};
+
+export const viewport: Viewport = {
+	width: "device-width",
+	initialScale: 1,
 };
 
 type RootLayoutProps = {
