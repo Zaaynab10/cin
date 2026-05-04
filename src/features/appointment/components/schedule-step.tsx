@@ -34,9 +34,11 @@ const MONTH_NAMES_FR = [
 ];
 const DAY_LABELS = ["L", "M", "M", "J", "V", "S", "D"];
 
-const TODAY = new Date();
-const CURR_YEAR = TODAY.getFullYear();
-const YEAR_OPTIONS = [CURR_YEAR, CURR_YEAR + 1, CURR_YEAR + 2];
+function getToday() {
+	const d = new Date();
+	d.setHours(0, 0, 0, 0);
+	return d;
+}
 
 // Helpers
 
@@ -173,8 +175,12 @@ export function ScheduleStep({
 	onNext,
 	onPrevious,
 }: ScheduleStepProps) {
-	const [viewYear, setViewYear] = useState(TODAY.getFullYear());
-	const [viewMonth, setViewMonth] = useState(TODAY.getMonth());
+	const today = useState(() => getToday())[0];
+	const currYear = today.getFullYear();
+	const yearOptions = [currYear, currYear + 1, currYear + 2];
+
+	const [viewYear, setViewYear] = useState(() => today.getFullYear());
+	const [viewMonth, setViewMonth] = useState(() => today.getMonth());
 	const [selectedDate, setSelectedDate] = useState<number | null>(null);
 	const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
 	const [selectedSlotLabel, setSelectedSlotLabel] = useState<string | null>(
@@ -245,8 +251,8 @@ export function ScheduleStep({
 		viewMonth === 0 ? 11 : viewMonth - 1,
 	);
 
-	const minYear = CURR_YEAR;
-	const maxYear = CURR_YEAR + 2;
+	const minYear = currYear;
+	const maxYear = currYear + 2;
 
 	function prevMonth() {
 		if (viewMonth === 0) {
@@ -286,11 +292,7 @@ export function ScheduleStep({
 
 	function isDateDisabled(day: number): boolean {
 		const d = new Date(viewYear, viewMonth, day);
-		const todayStart = new Date(
-			TODAY.getFullYear(),
-			TODAY.getMonth(),
-			TODAY.getDate(),
-		);
+		const todayStart = today;
 		if (d < todayStart) return true;
 		if (CLOSED_DAYS.includes(d.getDay())) return true;
 		return false;
@@ -381,7 +383,7 @@ export function ScheduleStep({
 					</button>
 				</div>
 				<div className="sch-year-tabs">
-					{YEAR_OPTIONS.map((y) => (
+					{yearOptions.map((y) => (
 						<button
 							key={y}
 							type="button"
@@ -396,8 +398,8 @@ export function ScheduleStep({
 
 			<div className="sch-cal">
 				<div className="sch-cal__dow-row">
-					{DAY_LABELS.map((l, _i) => (
-						<span key={l} className="sch-cal__dow">
+					{DAY_LABELS.map((l, i) => (
+						<span key={i} className="sch-cal__dow">
 							{l}
 						</span>
 					))}
