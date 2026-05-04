@@ -1,0 +1,150 @@
+.site-header {
+	position: sticky;
+	top: 0;
+	z-index: 20;
+	background: var(--color-surface);
+	border-bottom: 3px solid var(--color-brand-gold);
+	box-shadow: 0 2px 6px var(--color-header-shadow);
+}
+
+.site-header__inner {
+	width: min(100%, var(--container-max));
+	margin: 0 auto;
+	padding: var(--space-header-y) var(--space-page-x);
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 12px 16px;
+}
+
+.site-header__identity {
+	display: flex;
+	flex-direction: column;
+	gap: 4px;
+	min-width: 0;
+}
+
+.site-header__brand {
+	display: inline-flex;
+	align-items: center;
+	gap: 10px;
+	min-width: 0;
+}
+
+.site-header__logo-shell {
+	flex: 0 0 auto;
+}
+
+.site-header__logo {
+	width: 38px;
+	height: auto;
+}
+
+.site-header__brand-copy {
+	display: flex;
+	flex-direction: column;
+	min-width: 0;
+}
+
+.site-header__eyebrow {
+	color: var(--color-brand-ink);
+	font-size: 0.79rem;
+	font-weight: 800;
+	letter-spacing: 0.01em;
+	line-height: 1.2;
+}
+
+.site-header__title {
+	color: var(--color-brand-green);
+	font-size: 0.78rem;
+	font-weight: 500;
+	line-height: 1.25;
+	opacity: 0.9;
+}
+
+.site-header__cta {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: var(--space-cta-y) var(--space-cta-x);
+	border: 1px solid var(--color-brand-green);
+	border-radius: var(--radius-button);
+	color: var(--color-brand-green);
+	background: var(--color-surface);
+	font-size: 0.76rem;
+	font-weight: 600;
+	white-space: nowrap;
+	transition:
+		background-color 160ms ease,
+		border-color 160ms ease;
+}
+
+.site-header__cta:hover {
+	background: var(--color-cta-hover-bg);
+	border-color: var(--color-cta-hover-border);
+}
+
+.site-header__cta-icon {
+	width: 0.95rem;
+	height: 0.95rem;
+	flex: 0 0 auto;
+	display: block;
+}
+
+@media (min-width: 768px) {
+	.site-header__inner {
+		padding: 14px 24px;
+		gap: 14px 20px;
+	}
+
+	.site-header__brand {
+		gap: 12px;
+	}
+
+	.site-header__eyebrow {
+		font-size: 0.86rem;
+	}
+
+	.site-header__title {
+		font-size: 0.83rem;
+	}
+
+	.site-header__cta {
+		padding: 9px 12px;
+		font-size: 0.8rem;
+	}
+
+	.site-header__logo {
+		width: 41px;
+	}
+}
+
+@media (max-width: 480px) {
+	.site-header__title {
+		display: none;
+	}
+
+	.site-header__eyebrow {
+		font-size: 0.72rem;
+	}
+
+	.site-header__cta span {
+		display: none;
+	}
+
+	.site-header__cta {
+		padding: 8px 10px;
+	}
+
+	.site-header__cta-icon {
+		width: 1.15rem;
+		height: 1.15rem;
+	}
+}
+
+@media (max-width: 360px) {
+	.site-header__eyebrow {
+		font-size: 0.65rem;
+	}
+}

@@ -1,0 +1,330 @@
+/* ── Page wrapper ─────────────────────────────────────────────────────────────── */
+.apf-page {
+	min-height: 100vh;
+	background: var(--color-bg);
+}
+
+.apf-wrap {
+	max-width: 680px;
+	margin: 0 auto;
+	padding: 0 24px 88px;
+}
+
+/* ── Page header ──────────────────────────────────────────────────────────────── */
+.apf-header {
+	padding: 40px 0 0;
+}
+
+.apf-header__eyebrow {
+	margin: 0 0 6px;
+	color: var(--color-brand-green);
+	font-size: 0.72rem;
+	font-weight: 700;
+	text-transform: uppercase;
+	letter-spacing: 0.18em;
+}
+
+.apf-header__title {
+	margin: 0 0 24px;
+	color: var(--color-brand-ink);
+	font-size: clamp(1.25rem, 4vw, 1.7rem);
+	font-weight: 700;
+	line-height: 1.2;
+	letter-spacing: -0.015em;
+}
+
+/* ── Stepper ──────────────────────────────────────────────────────────────────── */
+.apf-stepper {
+	display: flex;
+	align-items: center;
+	padding: 24px 0 20px;
+	border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+	overflow-x: auto;
+	scrollbar-width: none;
+}
+
+.apf-stepper::-webkit-scrollbar {
+	display: none;
+}
+
+.apf-step {
+	display: flex;
+	align-items: center;
+	gap: 6px;
+	flex-shrink: 0;
+}
+
+.apf-step__sep {
+	display: block;
+	width: 20px;
+	height: 1px;
+	background: rgba(0, 0, 0, 0.14);
+	margin: 0 6px;
+	flex-shrink: 0;
+}
+
+.apf-step__dot {
+	width: 22px;
+	height: 22px;
+	border-radius: 50%;
+	border: 1.5px solid rgba(0, 0, 0, 0.22);
+	color: var(--color-text-secondary);
+	font-size: 0.68rem;
+	font-weight: 700;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	flex-shrink: 0;
+	transition:
+		background 200ms,
+		border-color 200ms,
+		color 200ms;
+}
+
+.apf-step__label {
+	font-size: 0.75rem;
+	font-weight: 500;
+	color: var(--color-text-secondary);
+	white-space: nowrap;
+}
+
+.apf-step--active .apf-step__dot {
+	background: var(--color-brand-green);
+	border-color: var(--color-brand-green);
+	color: #fff;
+}
+
+.apf-step--active .apf-step__label {
+	color: var(--color-brand-green);
+	font-weight: 700;
+}
+
+.apf-step--done .apf-step__dot {
+	background: color-mix(in srgb, var(--color-brand-green) 12%, white);
+	border-color: var(--color-brand-green);
+	color: var(--color-brand-green);
+}
+
+.apf-step--done .apf-step__label {
+	color: var(--color-brand-green);
+}
+
+/* ── Section header ───────────────────────────────────────────────────────────── */
+.apf-section {
+	padding-top: 32px;
+}
+
+.apf-section__header {
+	margin-bottom: 28px;
+}
+
+.apf-section__heading {
+	margin: 0 0 10px;
+	color: var(--color-brand-ink);
+	font-size: clamp(1.1rem, 3vw, 1.35rem);
+	font-weight: 700;
+	line-height: 1.3;
+}
+
+.apf-section__bar {
+	width: 44px;
+	height: 3px;
+	background: var(--color-brand-gold);
+	border-radius: 2px;
+}
+
+/* ── Fields ───────────────────────────────────────────────────────────────────── */
+.apf-fields {
+	display: flex;
+	flex-direction: column;
+	gap: 20px;
+}
+
+.apf-field {
+	display: flex;
+	flex-direction: column;
+	gap: 5px;
+}
+
+.apf-field__label {
+	font-size: 0.88rem;
+	font-weight: 600;
+	color: var(--color-brand-ink);
+}
+
+.apf-field__required {
+	color: var(--color-brand-green);
+	margin-left: 2px;
+}
+
+.apf-field__input {
+	width: 100%;
+	padding: 11px 14px;
+	background: var(--color-grey-97);
+	border: 1px solid var(--color-field-border);
+	border-radius: 10px;
+	font: inherit;
+	font-size: 0.88rem;
+	color: var(--color-brand-ink);
+	outline: none;
+	transition:
+		border-color 150ms,
+		box-shadow 150ms;
+	box-sizing: border-box;
+}
+
+.apf-field__input::placeholder {
+	color: var(--color-grey-53);
+}
+
+.apf-field__input:focus {
+	border-color: var(--color-brand-green);
+	box-shadow: 0 0 0 3px
+		color-mix(in srgb, var(--color-brand-green) 14%, transparent);
+}
+
+.apf-field__hint {
+	display: flex;
+	align-items: center;
+	gap: 5px;
+	margin: 0;
+	color: var(--color-text-secondary);
+	font-size: 0.78rem;
+	line-height: 1.4;
+}
+
+.apf-field__hint-icon {
+	width: 11px;
+	height: 11px;
+	flex-shrink: 0;
+	color: var(--color-brand-green);
+}
+
+.apf-field--error .apf-field__input {
+	border-color: #d32f2f;
+	box-shadow: 0 0 0 3px rgba(211, 47, 47, 0.12);
+}
+
+.apf-field__error {
+	display: flex;
+	align-items: flex-start;
+	gap: 5px;
+	margin: 0;
+	color: #d32f2f;
+	font-size: 0.78rem;
+	font-weight: 500;
+	line-height: 1.4;
+}
+
+/* ── Consent ──────────────────────────────────────────────────────────────────── */
+.apf-consent-wrap {
+	margin-top: 4px;
+}
+
+.apf-consent__error {
+	margin-top: 4px;
+}
+
+.apf-consent {
+	display: flex;
+	align-items: flex-start;
+	gap: 10px;
+	cursor: pointer;
+	margin-top: 4px;
+}
+
+.apf-consent__check {
+	flex-shrink: 0;
+	width: 16px;
+	height: 16px;
+	margin-top: 2px;
+	accent-color: var(--color-brand-green);
+	cursor: pointer;
+}
+
+.apf-consent__text {
+	font-size: 0.82rem;
+	color: var(--color-text-secondary);
+	line-height: 1.55;
+}
+
+.apf-consent__link {
+	color: var(--color-brand-green);
+	font-weight: 500;
+}
+
+/* ── Submit button ────────────────────────────────────────────────────────────── */
+.apf-submit {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	width: 100%;
+	padding: 14px 24px;
+	margin-top: 8px;
+	background: var(--color-brand-green);
+	border: none;
+	border-radius: var(--radius-pill);
+	color: var(--color-on-dark);
+	font: inherit;
+	font-size: 0.92rem;
+	font-weight: 600;
+	cursor: pointer;
+	box-shadow: 0 8px 20px -6px
+		color-mix(in srgb, var(--color-brand-green) 50%, transparent);
+	transition:
+		filter 160ms ease,
+		transform 120ms ease;
+}
+
+.apf-submit:hover { filter: brightness(1.08); }
+.apf-submit:active { transform: translateY(1px); }
+
+.apf-submit:disabled {
+	opacity: 0.45;
+	cursor: default;
+	filter: none;
+}
+
+.apf-submit__icon {
+	width: 15px;
+	height: 15px;
+	flex-shrink: 0;
+}
+
+.apf-submit--danger {
+	background: var(--color-status-error);
+	box-shadow: 0 8px 20px -6px
+		color-mix(in srgb, var(--color-status-error) 50%, transparent);
+}
+
+@media (max-width: 600px) {
+	.apf-wrap {
+		padding: 0 16px 64px;
+	}
+
+	.apf-step__label {
+		display: none;
+	}
+
+	.apf-step--active .apf-step__label {
+		display: inline;
+	}
+}
+
+@media (max-width: 480px) {
+	.apf-field__input {
+		padding: 12px;
+		min-height: 44px;
+		font-size: 0.875rem;
+	}
+
+	.apf-fields {
+		gap: 14px;
+	}
+
+	.apf-submit {
+		min-height: 48px;
+		font-size: 0.875rem;
+	}
+}
